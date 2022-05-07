@@ -1,7 +1,7 @@
 package excepciones;
 
 public class ErrorCrearLista extends Exception {
-	public NoExiste (){
+	public ErrorCrearLista (){
 		super();
 	}
 }

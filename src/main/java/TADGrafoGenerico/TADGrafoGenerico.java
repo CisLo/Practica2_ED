@@ -18,6 +18,7 @@ public interface TADGrafoGenerico <V, A> {
 	/**
 	 * Función para saber el valor de la arista de dos vertices pasados por parámetro
 	 * @return el valor de la arista
+	 * @throws NoExiste - cuando la arista no existe en el grafo
 	 */
 	A valorArista(V vertix1, V vertix2) throws NoExiste;
 
@@ -25,6 +26,7 @@ public interface TADGrafoGenerico <V, A> {
 	/**
 	 * Función que busca los vertices conectados directamente al vértice pasado por referencia
 	 * @return una lista con todos los vertices adyacentes
+	 * @throws ErrorCrearLista -cuando no se ha podido crear la lista
 	 */
 	LinkedList<V> adyacentes(V vertix) throws ErrorCrearLista;
 

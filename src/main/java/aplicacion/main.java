@@ -17,7 +17,7 @@ public class main {
 	private static void leerJson() throws FileNotFoundException {
 		Estaciones listaNodos = new Estaciones();
 		EstacionRecarga nodo;
-		Scanner reader = new Scanner(new File("src/main/java/icaen.json"));
+		Scanner reader = new Scanner(new File("src/main/resources/icaen.json"));
 
 		reader.useDelimiter("]");
 		String s = reader.next();

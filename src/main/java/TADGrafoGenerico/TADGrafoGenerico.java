@@ -7,20 +7,26 @@ import java.util.LinkedList;
 
 public interface TADGrafoGenerico <V, A> {
 
-	void agregarArista(V vertix1, V vertix2, A arista);
+	/**
+	 * Funcion agregar Arista
+	 * @param vertice1 - un vertice
+	 * @param vertice2 - otro vertice
+	 * @param arista - union entre ambos vertices
+	 */
+	void agregarArista(V vertice1, V vertice2, A arista);
 
 	/**
 	 * Función que comprueba si existe la arista
 	 * @return true - existe la arista. false - no existe
 	 */
-	boolean existeArista(V vertix1, V vertix2);
+	boolean existeArista(V vertice1, V vertice2);
 
 	/**
 	 * Función para saber el valor de la arista de dos vertices pasados por parámetro
 	 * @return el valor de la arista
 	 * @throws NoExiste - cuando la arista no existe en el grafo
 	 */
-	A valorArista(V vertix1, V vertix2) throws NoExiste;
+	A valorArista(V vertice1, V vertice2) throws NoExiste;
 
 	//TODO usar lista genérica
 	/**
@@ -28,7 +34,7 @@ public interface TADGrafoGenerico <V, A> {
 	 * @return una lista con todos los vertices adyacentes
 	 * @throws ErrorCrearLista -cuando no se ha podido crear la lista
 	 */
-	LinkedList<V> adyacentes(V vertix) throws ErrorCrearLista;
+	LinkedList<V> adyacentes(V vertice) throws ErrorCrearLista;
 
 
 }

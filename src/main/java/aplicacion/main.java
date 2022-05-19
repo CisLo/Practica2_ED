@@ -1,12 +1,10 @@
 package aplicacion;
 
 import com.google.gson.*;
-import datos.EstacionRecarga;
+import datos.Enchufe;
 import datos.Estaciones;
 
 import java.io.*;
-import java.lang.reflect.Type;
-import java.util.Map;
 import java.util.Scanner;
 
 public class main {
@@ -16,7 +14,7 @@ public class main {
 
 	private static void leerJson() throws FileNotFoundException {
 		Estaciones listaNodos = new Estaciones();
-		EstacionRecarga nodo;
+		Enchufe nodo;
 		Scanner reader = new Scanner(new File("src/main/resources/icaen.json"));
 
 		reader.useDelimiter("]");
@@ -36,9 +34,9 @@ public class main {
 			objeto += "}";
 
 			// Pasamos de JSONObject a un Objeto Java
-			nodo = new Gson().fromJson(objeto, EstacionRecarga.class);
+			nodo = new Gson().fromJson(objeto, Enchufe.class);
 			assert false;
-			listaNodos.addEstacion(nodo);
+			listaNodos.addEnchufe(nodo);
 		}
 
 		System.out.println(listaNodos);

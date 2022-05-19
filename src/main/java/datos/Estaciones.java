@@ -1,17 +1,16 @@
 package datos;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Estaciones {
-	private final List<EstacionRecarga> estacionesRecarga;
+	private final List<Enchufe> estacionesRecarga;
 
 	public Estaciones(){
 		estacionesRecarga = new LinkedList<>();
 	}
 
-	public void addEstacion(EstacionRecarga newData){
+	public void addEnchufe(Enchufe newData){
 		estacionesRecarga.add(newData);
 	}
 

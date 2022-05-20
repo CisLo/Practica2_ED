@@ -60,4 +60,13 @@ public class Nodo<K, A> {
 	public K getDatos() {
 		return dato;
 	}
+
+	@Override
+	public String toString() {
+		return "Nodo{" +
+				"dato=" + dato +
+				", punteroAristaHorizontal=" + punteroAristaHorizontal +
+				", punteroAristaVertical=" + punteroAristaVertical +
+				'}';
+	}
 }

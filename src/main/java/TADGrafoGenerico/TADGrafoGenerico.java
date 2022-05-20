@@ -12,8 +12,9 @@ public interface TADGrafoGenerico <V, A> {
 	 * @param vertice1 - un vertice
 	 * @param vertice2 - otro vertice
 	 * @param arista - union entre ambos vertices
+	 * @throws NoExiste - cuando no existe uno de los vertices
 	 */
-	void agregarArista(V vertice1, V vertice2, A arista);
+	void agregarArista(V vertice1, V vertice2, A arista) throws NoExiste;
 
 	/**
 	 * Función que comprueba si existe la arista

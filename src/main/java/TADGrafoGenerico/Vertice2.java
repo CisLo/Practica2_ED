@@ -20,4 +20,11 @@ public class Vertice2<V extends Comparable<V>, A> implements Comparable<Vertice2
 	public int compareTo(Vertice2<V, A> vertix) {
 		return this.vertice.dato.compareTo(vertix.vertice.dato);
 	}
+
+	@Override
+	public String toString() {
+		return "Vertice2{" +
+				"vertice=" + vertice +
+				'}';
+	}
 }

@@ -1,27 +1,16 @@
 package TADGrafoGenerico;
 
+public class Arista2<A> {
 
-import TAD_TablaHash_ListaGenerica.Nodo;
-
-public class Vertice<V extends Comparable<V>, A> {
-	V dato;
-	// TODO LinkedList<A> listaRelacion1;
-	// TODO ListaGenerica<A> listaRelacion2;
-
+	A dato;
 	Arista<A> punteroAristaHorizontal;
 	Arista<A> punteroAristaVertical;
 
-	public Vertice(V dato){
+	public Arista2(A dato){
 		this.dato = dato;
 		punteroAristaHorizontal = null;
 		punteroAristaVertical = null;
 	}
-
-	/*
-	public void setListaRelacion1(LinkedList<Arista> listaRelacion1) {
-		Arista ar = new Arista();
-		listaRelacion1.add()
-	}*/
 
 	/**
 	 * Metodo que comprueba si hay un siguiente nodo arista
@@ -51,7 +40,7 @@ public class Vertice<V extends Comparable<V>, A> {
 
 	/**
 	 * Setter
-	 * @param aristaHorizontal - nuevo puntero al primer nodo Arista Horizontal
+	 * @param aristaHorizontal - nuevo puntero al siguiente nodo Arista Horizontal
 	 */
 	public void setNodoSiguiente(Arista<A> aristaHorizontal){
 		this.punteroAristaHorizontal = aristaHorizontal;
@@ -59,7 +48,7 @@ public class Vertice<V extends Comparable<V>, A> {
 
 	/**
 	 * Setter
-	 * @param aristaVertical - nuevo puntero al primer nodo Arista Vertical
+	 * @param aristaVertical - nuevo puntero al siguiente nodo Arista Vertical
 	 */
 	public void setNodoAnterior(Arista<A> aristaVertical){
 		this.punteroAristaVertical = aristaVertical;
@@ -69,13 +58,13 @@ public class Vertice<V extends Comparable<V>, A> {
 	 * Metodo para obtener la instancia a los datos
 	 * @return la instancia de los datos del nodo
 	 */
-	public V getDatos() {
+	public A getDatos() {
 		return dato;
 	}
 
 	@Override
 	public String toString() {
-		return "Vertice{" +
+		return "Arista2{" +
 				"dato=" + dato +
 				", punteroAristaHorizontal=" + punteroAristaHorizontal +
 				", punteroAristaVertical=" + punteroAristaVertical +

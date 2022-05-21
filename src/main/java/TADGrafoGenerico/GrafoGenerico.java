@@ -18,7 +18,6 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 	 */
 	public GrafoGenerico(int mida){
 		tablaVertices = new TablaHashGenerica<>(mida);
-		System.out.println(tablaVertices);
 	}
 
 	/**
@@ -31,7 +30,6 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 			throw new NoExiste("El vertice no existe, no se puede agregar al grafo");
 		}
 		tablaVertices.insertar(vertice, new Vertice<V,A>(vertice));
-		System.out.println(tablaVertices);
 	}
 
 	@Override
@@ -54,7 +52,7 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 				throw new YaExisteArista("Ya existe una arista entre ambos vertices");
 			}
 
-			// Creamos la arista
+			// Creamos la arista y la unimos
 			Arista<V, A> nodoArista = new Arista<V, A>(arista);
 			nodoArista.setReferVerticeHorizontal(nodoMenor); // Lo unimos al vertice menor
 			nodoArista.setReferVerticeVertical(nodoMayor); // Lo unimos al vertice mayor
@@ -68,8 +66,6 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 		} catch (ClaveException e) {
 			throw new NoExiste("No existe alguno de los vertices al añadir arista");
 		}
-
-
 	}
 
 	@Override
@@ -106,8 +102,55 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 		return null;
 	}
 
+	private Arista<V, A> buscarArista(V vertice1, V vertice2) throws NoExiste{
+		boolean existe = false;
+		Arista<V, A> aristaEncontrada = null;
+		try {
+			Vertice<V,A> nodoInicio = tablaVertices.obtener(vertice1);
+			Vertice<V,A> nodoFinal = tablaVertices.obtener(vertice2);
+
+			Arista<V, A> aristaHorizontal = null;
+			Arista<V, A> aristaVertical = null;
+
+			if (nodoInicio.hasNextHorizontal()) {
+				aristaHorizontal = nodoInicio.getPunteroAristaHorizontal();
+				existe = aristaHorizontal.getReferVerticeVertical().compareTo(nodoFinal) == 0;
+
+				while (!existe && aristaHorizontal.hasNextHorizontal()){
+					aristaHorizontal = aristaHorizontal.getPunteroAristaHorizontal();
+					existe = aristaHorizontal.getReferVerticeVertical().compareTo(nodoFinal) == 0;
+				}
+			}
+			if (!existe && nodoInicio.hasNextVertical()){
+				aristaVertical = nodoInicio.getPunteroAristaVertical();
+				existe = aristaVertical.getReferVerticeHorizontal().compareTo(nodoFinal) == 0;
+
+				while (!existe && aristaVertical.hasNextVertical()){
+					aristaVertical = aristaVertical.getPunteroAristaVertical();
+					existe = aristaVertical.getReferVerticeHorizontal().compareTo(nodoFinal) == 0;
+				}
+			}
+
+			if (existe){ // En caso de que la arista exista devolvemos cual es
+				aristaEncontrada = aristaHorizontal == null? aristaVertical: aristaHorizontal;
+			} else{
+				throw new NoExiste("No existe la arista entre los vertices"+vertice1+"<--->"+vertice2);
+			}
+		} catch (ClaveException e) {/* No existe alguno de los vertices*/
+			throw new NoExiste("No existe alguno de los vertices");
+		}
+		return aristaEncontrada;
+	}
+
 	@Override
 	public LinkedList<V> adyacentes(V vertice) throws ErrorCrearLista {
 		return null;
+	}
+
+	@Override
+	public String toString() {
+		return "GrafoGenerico{" +
+				"tablaVertices=\n" + tablaVertices +
+				'}';
 	}
 }

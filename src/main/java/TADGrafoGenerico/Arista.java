@@ -19,6 +19,8 @@ public class Arista<V extends Comparable<V>, A> {
 		this.dato = dato;
 		punteroAristaHorizontal = null;
 		punteroAristaVertical = null;
+		referVerticeHorizontal = null;
+		referVerticeVertical = null;
 	}
 
 	/**
@@ -107,8 +109,10 @@ public class Arista<V extends Comparable<V>, A> {
 	public String toString() {
 		return "Arista{" +
 				"dato=" + dato +
-				", punteroAristaHorizontal=" + punteroAristaHorizontal +
-				", punteroAristaVertical=" + punteroAristaVertical +
-				'}';
+				",\n\t AristaHorizontal=" + punteroAristaHorizontal +
+				",\n\t AristaVertical=" + punteroAristaVertical +
+				",\n\t VerticeHorizontal=" + referVerticeHorizontal.getDatos() +
+				",\n\t VerticeVertical=" + referVerticeVertical.getDatos() +
+				"\n\t}";
 	}
 }

@@ -31,7 +31,7 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 		tablaVertices.insertar(vertice, new Vertice<V,A>(vertice));
 	}
 
-	@Override
+	@Override //TODO la arista se puede sobrescribir
 	public void agregarArista(V vertice1, V vertice2, A arista) throws NoExiste, YaExisteArista {
 		try {
 			// Comprobamos los vertices
@@ -112,7 +112,7 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 				}
 			}
 
-			if (existe){ // En caso de que la arista exista devolvemos cual es
+			if (existe){ // En caso de que la arista exista devolvemos como es
 				aristaEncontrada = aristaHorizontal == null? aristaVertical: aristaHorizontal;
 			} else{
 				throw new NoExiste("No existe la arista entre los vertices "+vertice1+" <---> "+vertice2);

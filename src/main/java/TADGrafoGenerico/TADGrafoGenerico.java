@@ -8,9 +8,9 @@ import java.util.LinkedList;
 public interface TADGrafoGenerico <V, A> {
 
 	/**
-	 * Funcion agregar Arista
-	 * @param vertice1 - un vertice
-	 * @param vertice2 - otro vertice
+	 * Función agregar Arista
+	 * @param vertice1 - un vértice
+	 * @param vertice2 - otro vértice
 	 * @param arista - union entre ambos vertices
 	 * @throws NoExiste - cuando no existe uno de los vertices
 	 */

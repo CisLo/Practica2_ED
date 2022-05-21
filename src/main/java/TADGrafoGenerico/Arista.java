@@ -51,7 +51,7 @@ public class Arista<V extends Comparable<V>, A> {
 
 	/**
 	 * Setter
-	 * @param aristaHorizontal - nuevo puntero al siguiente nodo Arista Horizontal (ambas estan unidas al vertice menor de esta arista)
+	 * @param aristaHorizontal - nuevo puntero al siguiente nodo Arista Horizontal (ambas están unidas al vertice menor de esta arista)
 	 */
 	public void setNodoHorizontal(Arista<V, A> aristaHorizontal){
 		this.punteroAristaHorizontal = aristaHorizontal;
@@ -59,7 +59,7 @@ public class Arista<V extends Comparable<V>, A> {
 
 	/**
 	 * Setter
-	 * @param aristaVertical - nuevo puntero al siguiente nodo Arista Vertical (ambas estan unidas al vertice mayor de esta arista)
+	 * @param aristaVertical - nuevo puntero al siguiente nodo Arista Vertical (ambas están unidas al vertice mayor de esta arista)
 	 */
 	public void setNodoVertical(Arista<V, A> aristaVertical){
 		this.punteroAristaVertical = aristaVertical;
@@ -67,7 +67,7 @@ public class Arista<V extends Comparable<V>, A> {
 
 	/**
 	 * Setter
-	 * @param referVerticeHorizontal - nueva referencia de la arista a un vertice menor al que esta unido
+	 * @param referVerticeHorizontal - nueva referencia de la arista a un vertice menor al que está unido
 	 */
 	public void setReferVerticeHorizontal(Vertice<V, A> referVerticeHorizontal) {
 		this.referVerticeHorizontal = referVerticeHorizontal;

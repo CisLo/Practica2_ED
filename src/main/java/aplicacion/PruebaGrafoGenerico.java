@@ -4,7 +4,7 @@ import TADGrafoGenerico.GrafoGenerico;
 import excepciones.NoExiste;
 import excepciones.YaExisteArista;
 
-public class PruebaGrafo {
+public class PruebaGrafoGenerico {
 	public static void main(String[] args) {
 
 		// Probamos constructor

@@ -1,6 +1,5 @@
 package TADGrafoGenerico;
 
-import excepciones.ErrorCrearLista;
 import excepciones.NoExiste;
 import excepciones.YaExisteArista;
 
@@ -34,9 +33,9 @@ public interface TADGrafoGenerico <V, A> {
 	/**
 	 * Función que busca los vertices conectados directamente al vértice pasado por referencia
 	 * @return una lista con todos los vertices adyacentes
-	 * @throws ErrorCrearLista -cuando no se ha podido crear la lista
+	 * @throws NoExiste -cuando no se ha podido crear la lista
 	 */
-	LinkedList<V> adyacentes(V vertice) throws ErrorCrearLista;
+	LinkedList<V> adyacentes(V vertice) throws NoExiste;
 
 
 }

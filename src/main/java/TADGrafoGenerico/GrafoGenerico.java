@@ -38,15 +38,14 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 	public void agregarArista(V vertice1, V vertice2, A arista) throws NoExiste, YaExisteArista {
 		try {
 			// Comprobamos los vertices
-			Vertice<V,A> nodoInicio = tablaVertices.obtener(vertice1);
-			Vertice<V,A> nodoFinal = tablaVertices.obtener(vertice2);
+			Vertice<V,A> nodoMenor = tablaVertices.obtener(vertice1);
+			Vertice<V,A> nodoMayor = tablaVertices.obtener(vertice2);
 
-			//TODO Usamos el metodo compareTo para hacer una matriz triangular, Este paso no es necesario
-			// Con esta instruccion hacemos que el vertice más pequeño tenga todas las aristas en solo el puntero Horizontal
-			// nodoInicio = tablaVertices.obtener(vertice1).compareTo(tablaVertices.obtener(vertice2)) < 0? tablaVertices.obtener(vertice1): tablaVertices.obtener(vertice2);
-			if (nodoInicio.compareTo(nodoFinal)>0){ // nodoInicio es mayor que el nodoFinal, entonces los intercambiamos
-				nodoInicio = tablaVertices.obtener(vertice2);
-				nodoFinal = tablaVertices.obtener(vertice1);
+			// Añadimos la arista siempre al vertice menor
+			// TODO nodoMenor = tablaVertices.obtener(vertice1).compareTo(tablaVertices.obtener(vertice2)) < 0? tablaVertices.obtener(vertice1): tablaVertices.obtener(vertice2);
+			if (nodoMenor.compareTo(nodoMayor)>0){ // nodoMenor es mayor que el nodoMayor, entonces los intercambiamos
+				nodoMenor = tablaVertices.obtener(vertice2);
+				nodoMayor = tablaVertices.obtener(vertice1);
 			}
 
 			//TODO hay que sobrescribir si ya existe la arista?
@@ -57,7 +56,14 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 
 			// Creamos la arista
 			Arista<V, A> nodoArista = new Arista<V, A>(arista);
-			nodoArista.setReferVerticeHorizontal();
+			nodoArista.setReferVerticeHorizontal(nodoMenor); // Lo unimos al vertice menor
+			nodoArista.setReferVerticeVertical(nodoMayor); // Lo unimos al vertice mayor
+			//TODO unir ordenado??
+			// esto es añadirlo al principio de ambos nodos de forma desordenada
+			nodoArista.setNodoHorizontal(nodoMenor.getPunteroAristaHorizontal());
+			nodoArista.setNodoVertical(nodoMayor.getPunteroAristaVertical());
+			nodoMenor.setNodoHorizontal(nodoArista);
+			nodoMayor.setNodoVertical(nodoArista);
 
 		} catch (ClaveException e) {
 			throw new NoExiste("No existe alguno de los vertices al añadir arista");

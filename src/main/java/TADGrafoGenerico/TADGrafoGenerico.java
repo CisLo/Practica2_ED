@@ -2,6 +2,7 @@ package TADGrafoGenerico;
 
 import excepciones.ErrorCrearLista;
 import excepciones.NoExiste;
+import excepciones.YaExisteArista;
 
 import java.util.LinkedList;
 
@@ -14,7 +15,7 @@ public interface TADGrafoGenerico <V, A> {
 	 * @param arista - union entre ambos vertices
 	 * @throws NoExiste - cuando no existe uno de los vertices
 	 */
-	void agregarArista(V vertice1, V vertice2, A arista) throws NoExiste;
+	void agregarArista(V vertice1, V vertice2, A arista) throws NoExiste, YaExisteArista;
 
 	/**
 	 * Función que comprueba si existe la arista

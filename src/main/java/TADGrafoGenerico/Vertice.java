@@ -3,13 +3,17 @@ package TADGrafoGenerico;
 
 import TAD_TablaHash_ListaGenerica.Nodo;
 
-public class Vertice<V extends Comparable<V>, A> {
-	V dato;
+public class Vertice<V extends Comparable<V>, A> implements Comparable<Vertice<V, A>> {
 	// TODO LinkedList<A> listaRelacion1;
 	// TODO ListaGenerica<A> listaRelacion2;
 
-	Arista<A> punteroAristaHorizontal;
-	Arista<A> punteroAristaVertical;
+	private V dato;
+
+	private Arista<V, A> punteroAristaHorizontal;
+	private Arista<V, A> punteroAristaVertical;
+
+
+	// ************ ↓↓↓ MÉTODOS ↓↓↓ ***********
 
 	public Vertice(V dato){
 		this.dato = dato;
@@ -38,14 +42,14 @@ public class Vertice<V extends Comparable<V>, A> {
 	 * Metodo next
 	 * @return el puntero al siguiente nodo Arista Horizontal
 	 */
-	public Arista<A> getPunteroAristaHorizontal() {
+	public Arista<V, A> getPunteroAristaHorizontal() {
 		return punteroAristaHorizontal;
 	}
 	/**
 	 * Metodo next
 	 * @return el puntero al siguiente nodo Arista Vertical
 	 */
-	public Arista<A> getPunteroAristaVertical() {
+	public Arista<V, A> getPunteroAristaVertical() {
 		return punteroAristaVertical;
 	}
 
@@ -53,7 +57,7 @@ public class Vertice<V extends Comparable<V>, A> {
 	 * Setter
 	 * @param aristaHorizontal - nuevo puntero al primer nodo Arista Horizontal
 	 */
-	public void setNodoSiguiente(Arista<A> aristaHorizontal){
+	public void setNodoHorizontal(Arista<V, A> aristaHorizontal){
 		this.punteroAristaHorizontal = aristaHorizontal;
 	}
 
@@ -61,7 +65,7 @@ public class Vertice<V extends Comparable<V>, A> {
 	 * Setter
 	 * @param aristaVertical - nuevo puntero al primer nodo Arista Vertical
 	 */
-	public void setNodoAnterior(Arista<A> aristaVertical){
+	public void setNodoVertical(Arista<V, A> aristaVertical){
 		this.punteroAristaVertical = aristaVertical;
 	}
 
@@ -71,6 +75,11 @@ public class Vertice<V extends Comparable<V>, A> {
 	 */
 	public V getDatos() {
 		return dato;
+	}
+
+	@Override
+	public int compareTo(Vertice<V, A> vertix) {
+		return dato.compareTo(vertix.dato);
 	}
 
 	@Override

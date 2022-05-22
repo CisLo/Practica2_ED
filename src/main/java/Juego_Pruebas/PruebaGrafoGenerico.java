@@ -1,4 +1,4 @@
-package aplicacion;
+package Juego_Pruebas;
 
 import TADGrafoGenerico.GrafoGenerico;
 import excepciones.NoExiste;

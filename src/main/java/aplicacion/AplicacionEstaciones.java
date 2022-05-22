@@ -1,19 +1,26 @@
-package datos;
+package aplicacion;
 
 import com.google.gson.*;
 import datos.Enchufe;
+import datos.GrafoEstaciones;
 import datos.ZonaRecarga;
 
 import java.io.*;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-public class main {
+public class AplicacionEstaciones {
 	public static void main(String[] args) throws FileNotFoundException {
-		leerJson("src/main/resources/icaen.json");
+		// Cargamos los datos de JSON al grafo
+		LinkedList<ZonaRecarga> listaZonas = leerJson("src/main/resources/icaen.json");
+		listaZonas = ZonaRecarga.leerJson("src/main/resources/icaen.json");
+		//System.out.println(listaZonas);
+		GrafoEstaciones grafoEstaciones = new GrafoEstaciones(listaZonas);
+
+		System.out.println(listaZonas.get(0).distancia(listaZonas.get(1)));
 	}
 
-	private static void leerJson(String path) throws FileNotFoundException {
+	private static LinkedList<ZonaRecarga> leerJson(String path) throws FileNotFoundException {
 		LinkedList<Enchufe> listaNodos = new LinkedList<>();
 		LinkedList<ZonaRecarga> listaZonas = new LinkedList<>();
 		ZonaRecarga zona = null;
@@ -43,17 +50,28 @@ public class main {
 			enchufe = new Gson().fromJson(objeto, Enchufe.class);
 			assert false;
 			//listaNodos.add(enchufe);
+			/*
 			if (zona == null || !zona.addEnchufe(enchufe)){ //TODO
 				listaZonas.add(zona); //TODO
 				zona = new ZonaRecarga(enchufe);
+			}*/
+
+			if (zona == null){
+				zona = new ZonaRecarga(enchufe);
+			}else{
+				if(!zona.addEnchufe(enchufe)){ // Intentamos añadirlo, si no se puede es porque tiene coordenadas distintas
+					listaZonas.add(zona); // guardamos la anterior zona de recarga
+					zona = new ZonaRecarga(enchufe); // creamos una nueva zona para el enchufe
+				}
 			}
-
 		}
+		listaZonas.add(zona);
 
-		//TODO System.out.println(listaNodos);
-		System.out.println(listaZonas);
 		reader.close();
+		return listaZonas;
 	}
+
+
 
 
 }

@@ -10,6 +10,7 @@ import java.util.LinkedList;
 public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGenerico<V, A> {
 
 	TablaHashGenerica<V, Vertice<V,A>> tablaVertices;
+	//TODO V verticeDelGrafo; // puntero a un vertice del grafo, lo usaremos para empezar a recorrer el grafo por una pa
 
 	/**
 	 * Constructor de la clase GrafoGenerico
@@ -17,6 +18,7 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 	 */
 	public GrafoGenerico(int mida){
 		tablaVertices = new TablaHashGenerica<>(mida);
+		//TODO verticeDelGrafo = null;
 	}
 
 	/**

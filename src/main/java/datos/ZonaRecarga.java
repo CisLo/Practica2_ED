@@ -1,6 +1,7 @@
 package datos;
 
 import com.google.gson.Gson;
+import excepciones.NoExiste;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,7 +22,12 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 		this.longitud = enchufe.getLongitud();
 	}
 
-	public boolean addEnchufe (Enchufe enchufe){
+	/**
+	 * Función que añade un enchufe a la zona de recarga, tiene que tener las mismas coordenadas
+	 * @param enchufe - enchufe a añadir
+	 * @return true - si se ha añdido; false - si no tiene las mismas coordenadas
+	 */
+	public boolean addEnchufe (Enchufe enchufe)  {
 		if (enchufe.getLongitud() == longitud && enchufe.getLatitud() == latitud){
 			listaEnchufes.add(enchufe);
 			return true;
@@ -29,6 +35,11 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 		return false; // No se puede añadir porque no pertenece a la misma zona
 	}
 
+	/**
+	 * Función que calcula la distancia euclidiana entre las coordenadas de dos zonas de recarga
+	 * @param zonaRecarga - zona de recarga sobre la que se quiere calcular la distancia respecto a la zona de recarga actual
+	 * @return la distancia (double) entre dos zonas de recarga
+	 */
 	public double distancia(ZonaRecarga zonaRecarga) {
 		final double  R = 6378.137;
 
@@ -49,21 +60,14 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 		return 2 * R * Math.atan2(Math.sqrt(resultado), Math.sqrt(1-resultado));
 	}
 
-	@Override
-	public int compareTo(ZonaRecarga zona) { //TODO
-		return 0;
-	}
 
-	@Override
-	public String toString() {
-		return "\nZonaRecarga{" +
-				"id=" + id +
-				", latitud=" + latitud +
-				", longitud=" + longitud +
-				", listaEnchufes=" + listaEnchufes +
-				'}';
-	}
 
+	/**
+	 * Función que lee un archivo JSON con los enchufes de recarga
+	 * @param path - ruta del archivo JSON
+	 * @return una lista con las zonas de recarga (conjunto de enchufes con las mismas coordenadas
+	 * @throws FileNotFoundException - problemas al no poder encontrar el fichero
+	 */
 	public static LinkedList<ZonaRecarga> leerJson(String path) throws FileNotFoundException {
 		LinkedList<ZonaRecarga> listaZonas = new LinkedList<>();
 		ZonaRecarga zona = null;
@@ -107,5 +111,20 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 
 		reader.close();
 		return listaZonas;
+	}
+
+	@Override
+	public int compareTo(ZonaRecarga zona) { //TODO
+		return this.id - zona.id; // negativo si este objeto es menor, 0 si son iguales, positivo si es mayor a la zona pasasado por parametro
+	}
+
+	@Override
+	public String toString() {
+		return "\nZonaRecarga{" +
+				"id=" + id +
+				", latitud=" + latitud +
+				", longitud=" + longitud +
+				", listaEnchufes=" + listaEnchufes +
+				'}';
 	}
 }

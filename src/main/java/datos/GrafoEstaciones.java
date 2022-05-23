@@ -30,19 +30,22 @@ public class GrafoEstaciones { //TODO
 	 * @param zonaGrafo - estacion que ya pertenece al grafo y del cual se comienza el recorrido
 	 * @throws NoExiste - Zona de recarga pasada por parametro es nulo
 	 */
-	public void addEstacion (ZonaRecarga newEstacion, ZonaRecarga zonaGrafo) throws NoExiste {
+	public void addEstacion (ZonaRecarga newEstacion) throws NoExiste {
 		//TODO poner zona de inicio como parametro? o preparar GrafoGenerico para obtener una zona de recarga para hacer el recorrido?
 		ZonaRecarga estacionMasCercana = null;
 
+		// Añadimos el vertice
 		grafoEstaciones.agregarVertice(newEstacion);
-		if (zonaGrafo == null){
-			throw new NoExiste("La estacion del grafo para hacer el recorrido es nulo");
-		}
+
 
 		// Añadimos aristas a menos de 40km
-		while (grafoEstaciones.adyacentes())
+		for (vertice:grafoEstaciones.adyacentes(grafoEstaciones.getVerticeDelGrafo())) {
+
+		}
 
 		// Añadimos el más cercano si no hay ninguno a 40km
+
+
 
 	}
 }

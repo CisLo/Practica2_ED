@@ -10,7 +10,7 @@ import java.util.LinkedList;
 public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGenerico<V, A> {
 
 	TablaHashGenerica<V, Vertice<V,A>> tablaVertices;
-	//TODO V verticeDelGrafo; // puntero a un vertice del grafo, lo usaremos para empezar a recorrer el grafo por una pa
+	V verticeDelGrafo; // TODO puntero a un vertice del grafo, lo usaremos para empezar a recorrer el grafo por una pa
 
 	/**
 	 * Constructor de la clase GrafoGenerico
@@ -18,7 +18,7 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 	 */
 	public GrafoGenerico(int mida){
 		tablaVertices = new TablaHashGenerica<>(mida);
-		//TODO verticeDelGrafo = null;
+		verticeDelGrafo = null; //TODO
 	}
 
 	/**
@@ -31,6 +31,9 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 			throw new NoExiste("El vértice pasado por parámetro es nulo");
 		}
 		tablaVertices.insertar(vertice, new Vertice<V,A>(vertice));
+		if(verticeDelGrafo == null){
+			verticeDelGrafo = vertice; //TODO apuntamos el vertice añadido para comenzar el recorrido del grafo
+		}
 	}
 
 	@Override //TODO la arista se puede sobrescribir
@@ -123,6 +126,14 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 			throw new NoExiste("No existe alguno de los vertices");
 		}
 		return aristaEncontrada;
+	}
+
+	/**
+	 * Getter
+	 * @return un vertice que pertenezca al grafo, null en caso de que no haya vertices en el grafo
+	 */
+	public V getVerticeDelGrafo() {
+		return verticeDelGrafo;
 	}
 
 	@Override

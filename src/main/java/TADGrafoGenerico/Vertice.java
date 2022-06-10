@@ -4,8 +4,6 @@ package TADGrafoGenerico;
 import TAD_TablaHash_ListaGenerica.Nodo;
 
 public class Vertice<V extends Comparable<V>, A> implements Comparable<Vertice<V, A>> {
-	// TODO LinkedList<A> listaRelacion1;
-	// TODO ListaGenerica<A> listaRelacion2;
 
 	private V dato;
 
@@ -21,21 +19,12 @@ public class Vertice<V extends Comparable<V>, A> implements Comparable<Vertice<V
 		punteroAristaVertical = null;
 	}
 
-	/*
-	public void setListaRelacion1(LinkedList<Arista> listaRelacion1) {
-		Arista ar = new Arista();
-		listaRelacion1.add()
-	}*/
-
 	/**
 	 * Metodo que comprueba si hay un siguiente nodo arista
 	 * @return true si hay nodo, false si es null
 	 */
 	public boolean hasNextHorizontal() {
 		return punteroAristaHorizontal != null;
-	}
-	public boolean hasNextVertical(){
-		return punteroAristaVertical != null;
 	}
 
 	/**
@@ -82,12 +71,18 @@ public class Vertice<V extends Comparable<V>, A> implements Comparable<Vertice<V
 		return dato.compareTo(vertix.dato);
 	}
 
+	//TODO colores para la impresión por consola
+	public static final String ANSI_GREEN = "\u001B[32m";
+	public static final String ANSI_BLUE = "\u001B[34m";
+	public static final String ANSI_PURPLE = "\u001B[35m";
+	public static final String ANSI_RESET = "\u001B[0m";
+
 	@Override
 	public String toString() {
 		return "Vertice{" +
-				"dato=" + dato +
-				", punteroAristaHorizontal=" + punteroAristaHorizontal +
-				", punteroAristaVertical=" + punteroAristaVertical +
+				ANSI_PURPLE + "dato=" + dato +
+				ANSI_BLUE + ", punteroAristaHorizontal=" + punteroAristaHorizontal +
+				ANSI_GREEN + ", punteroAristaVertical=" + punteroAristaVertical + ANSI_RESET +
 				'}';
 	}
 }

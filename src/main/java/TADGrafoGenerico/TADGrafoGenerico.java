@@ -28,8 +28,7 @@ public interface TADGrafoGenerico <V, A> {
 	 * @throws NoExiste - cuando la arista no existe en el grafo
 	 */
 	A valorArista(V vertice1, V vertice2) throws NoExiste;
-
-	//TODO usar lista genérica
+	
 	/**
 	 * Función que busca los vertices conectados directamente al vértice pasado por referencia
 	 * @return una lista con todos los vertices adyacentes

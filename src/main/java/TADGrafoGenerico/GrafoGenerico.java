@@ -10,7 +10,7 @@ import java.util.LinkedList;
 public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGenerico<V, A> {
 
 	TablaHashGenerica<V, Vertice<V,A>> tablaVertices;
-	V verticeDelGrafo; // TODO puntero a un vertice del grafo, lo usaremos para empezar a recorrer el grafo por una pa
+	//V verticeDelGrafo; // TODO puntero a un vertice del grafo, lo usaremos para empezar a recorrer el grafo por una pa
 
 	/**
 	 * Constructor de la clase GrafoGenerico
@@ -18,7 +18,7 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 	 */
 	public GrafoGenerico(int mida){
 		tablaVertices = new TablaHashGenerica<>(mida);
-		verticeDelGrafo = null; //TODO
+		//verticeDelGrafo = null; //TODO
 	}
 
 	/**
@@ -31,9 +31,9 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 			throw new NoExiste("El vértice pasado por parámetro es nulo");
 		}
 		tablaVertices.insertar(vertice, new Vertice<V,A>(vertice));
-		if(verticeDelGrafo == null){
+		/*if(verticeDelGrafo == null){ // Actualizamos el puntero a un vertice aleatorio del grafo para hacer recorridos
 			verticeDelGrafo = vertice; //TODO apuntamos el vertice añadido para comenzar el recorrido del grafo
-		}
+		}*/
 	}
 
 	@Override //TODO la arista se puede sobrescribir
@@ -44,7 +44,6 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 			Vertice<V,A> nodoMayor = tablaVertices.obtener(vertice2);
 
 			// Añadimos la arista siempre al vértice menor
-			// TODO nodoMenor = tablaVertices.obtener(vertice1).compareTo(tablaVertices.obtener(vertice2)) < 0? tablaVertices.obtener(vertice1): tablaVertices.obtener(vertice2);
 			if (nodoMenor.compareTo(nodoMayor)>0){ // nodoMenor es mayor que el nodoMayor, entonces los intercambiamos
 				nodoMenor = tablaVertices.obtener(vertice2);
 				nodoMayor = tablaVertices.obtener(vertice1);
@@ -90,51 +89,47 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 
 	private Arista<V, A> buscarArista(V vertice1, V vertice2) throws NoExiste{
 		boolean existe = false;
-		Arista<V, A> aristaEncontrada;
+		Arista<V, A> aristaHorizontal = null;
+
 		try {
-			Vertice<V,A> nodoInicio = tablaVertices.obtener(vertice1);
-			Vertice<V,A> nodoFinal = tablaVertices.obtener(vertice2);
+			Vertice<V,A> nodoMenor = tablaVertices.obtener(vertice1);
+			Vertice<V,A> nodoMayor = tablaVertices.obtener(vertice2);
 
-			Arista<V, A> aristaHorizontal = null;
-			Arista<V, A> aristaVertical = null;
+			// Identificamos el nodoMenor y nodoMayor
+			if (nodoMenor.compareTo(nodoMayor)>0){ // nodoMenor es mayor que el nodoMayor, entonces los intercambiamos
+				nodoMenor = tablaVertices.obtener(vertice2);
+				nodoMayor = tablaVertices.obtener(vertice1);
+			}
 
-			if (nodoInicio.hasNextHorizontal()) {
-				aristaHorizontal = nodoInicio.getPunteroAristaHorizontal();
-				existe = aristaHorizontal.getReferVerticeVertical().compareTo(nodoFinal) == 0;
+			// El nodo menor será el que tenga la arista en su puntero Horizontal
+			if (nodoMenor.hasNextHorizontal()) {
+				aristaHorizontal = nodoMenor.getPunteroAristaHorizontal();
+				existe = aristaHorizontal.getReferVerticeVertical().compareTo(nodoMayor) == 0;
 
 				while (!existe && aristaHorizontal.hasNextHorizontal()){
 					aristaHorizontal = aristaHorizontal.getPunteroAristaHorizontal();
-					existe = aristaHorizontal.getReferVerticeVertical().compareTo(nodoFinal) == 0;
-				}
-			}
-			if (!existe && nodoInicio.hasNextVertical()){
-				aristaVertical = nodoInicio.getPunteroAristaVertical();
-				existe = aristaVertical.getReferVerticeHorizontal().compareTo(nodoFinal) == 0;
-
-				while (!existe && aristaVertical.hasNextVertical()){
-					aristaVertical = aristaVertical.getPunteroAristaVertical();
-					existe = aristaVertical.getReferVerticeHorizontal().compareTo(nodoFinal) == 0;
+					existe = aristaHorizontal.getReferVerticeVertical().compareTo(nodoMayor) == 0;
 				}
 			}
 
-			if (existe){ // En caso de que la arista exista devolvemos como es
-				aristaEncontrada = aristaHorizontal == null? aristaVertical: aristaHorizontal;
-			} else{
+			if (!existe){ // En caso de que la arista exista devolvemos como es
 				throw new NoExiste("No existe la arista entre los vertices "+vertice1+" <---> "+vertice2);
 			}
 		} catch (ClaveException e) {/* No existe alguno de los vertices*/
 			throw new NoExiste("No existe alguno de los vertices");
 		}
-		return aristaEncontrada;
+		return aristaHorizontal;
 	}
 
+	//TODO
 	/**
 	 * Getter
 	 * @return un vertice que pertenezca al grafo, null en caso de que no haya vertices en el grafo
 	 */
+	/*
 	public V getVerticeDelGrafo() {
 		return verticeDelGrafo;
-	}
+	}*/
 
 	@Override
 	public LinkedList<V> adyacentes(V vertice) throws NoExiste {

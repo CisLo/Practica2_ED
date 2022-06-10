@@ -6,7 +6,7 @@ import excepciones.NoExiste;
 import java.util.LinkedList;
 
 public class GrafoEstaciones { //TODO
-	GrafoGenerico <ZonaRecarga, Integer> grafoEstaciones;
+	private GrafoGenerico <ZonaRecarga, Integer> grafoEstaciones;
 
 	public GrafoEstaciones (int mida){
 		grafoEstaciones = new GrafoGenerico<ZonaRecarga, Integer>(mida);
@@ -38,10 +38,12 @@ public class GrafoEstaciones { //TODO
 		grafoEstaciones.agregarVertice(newEstacion);
 
 
-		// Añadimos aristas a menos de 40km
+		//TODO
+		/* Añadimos aristas a menos de 40km
 		for (vertice:grafoEstaciones.adyacentes(grafoEstaciones.getVerticeDelGrafo())) {
 
-		}
+		}*/
+
 
 		// Añadimos el más cercano si no hay ninguno a 40km
 

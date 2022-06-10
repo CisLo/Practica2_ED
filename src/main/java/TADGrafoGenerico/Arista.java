@@ -30,9 +30,7 @@ public class Arista<V extends Comparable<V>, A> {
 	public boolean hasNextHorizontal() {
 		return punteroAristaHorizontal != null;
 	}
-	public boolean hasNextVertical(){
-		return punteroAristaVertical != null;
-	}
+
 
 	/**
 	 * Getter
@@ -89,6 +87,9 @@ public class Arista<V extends Comparable<V>, A> {
 		return dato;
 	}
 
+	public V getReferMenor(){return referVerticeHorizontal.getDatos();}
+	public V getReferMayor(){return referVerticeVertical.getDatos();}
+
 	/**
 	 * Getter
 	 * @return la referencia a uno de los vertices
@@ -107,12 +108,18 @@ public class Arista<V extends Comparable<V>, A> {
 
 	@Override
 	public String toString() {
+		// Imprimimos el objeto y cuál es la arista siguiente
+		V referHorizMenor = punteroAristaHorizontal == null? null: punteroAristaHorizontal.getReferMenor();
+		V referHorizMayor = punteroAristaHorizontal == null? null: punteroAristaHorizontal.getReferMayor();
+		V referVertMenor = punteroAristaVertical == null? null: punteroAristaVertical.getReferMenor();
+		V referVertMayor = punteroAristaVertical == null? null: punteroAristaVertical.getReferMayor();
+
 		return "Arista{" +
 				"dato=" + dato +
-				",\n\t AristaHorizontal=" + punteroAristaHorizontal +
-				",\n\t AristaVertical=" + punteroAristaVertical +
 				",\n\t VerticeHorizontal=" + referVerticeHorizontal.getDatos() +
 				",\n\t VerticeVertical=" + referVerticeVertical.getDatos() +
-				"\n\t}";
+				",\n\t AristaHorizontal=(" + referHorizMenor + "<-->" + referHorizMayor +
+				"),\n\t AristaVertical=(" + referVertMenor + "<-->" + referVertMayor +
+				")\n\t}";
 	}
 }

@@ -99,8 +99,8 @@ public class PruebaGrafoGenerico {
 	private static void agregarAristas(GrafoGenerico<String, Integer> grafo) {
 		try {
 			grafo.agregarArista("1", "2", 100);
-			grafo.agregarArista("3", "2", 75); // Añadimos arista, vertice 1 -> es el mayor, vertice 2 -> el menor
-			grafo.agregarArista("1", "3", 90); // Añadimos arista, vertice 1 -> es el mayor, vertice 2 -> el menor
+			grafo.agregarArista("3", "2", 75);
+			grafo.agregarArista("1", "3", 90);
 		} catch (NoExiste | YaExisteArista e) {
 			e.printStackTrace();
 		}
@@ -116,11 +116,11 @@ public class PruebaGrafoGenerico {
 			System.out.println(grafo);
 
 			System.out.println("\nIntentamos añadir vertice entre 3 y 2");
-			grafo.agregarArista("3", "2", 75); // Añadimos arista, vertice 1 -> es el mayor, vertice 2 -> el menor
+			grafo.agregarArista("3", "2", 75); // Añadimos arista, vertice 3 -> es el mayor, vertice 2 -> el menor
 			System.out.println(grafo);
 
 			System.out.println("\nAñadimos arista a los vertices 1 y 3");
-			grafo.agregarArista("1", "3", 90); // Añadimos arista, vertice 1 -> es el mayor, vertice 2 -> el menor
+			grafo.agregarArista("1", "3", 90); // Añadimos arista, vertice 1 -> es el mayor, vertice 3 -> el menor
 			System.out.println(grafo);
 
 			System.out.println("\nIntentamos añadir arista entre vertice 1 y 2");
@@ -159,7 +159,7 @@ public class PruebaGrafoGenerico {
 	private static void pruebaInsercionVertice() {
 		GrafoGenerico<String, Integer> grafo = new GrafoGenerico<String, Integer>(6);
 		System.out.println("\n----------PRUEBA AÑADIR VERTICE--------------");
-		System.out.println("Añadimos vertice 1, 2, 3");
+		System.out.println("Añadimos vertice 1, 2, 3 y 4");
 		agregarVertices(grafo);
 		System.out.println(grafo);
 		System.out.println("Intentamos añadir un vertice nulo");

@@ -1,27 +1,27 @@
 package datos;
 
 import TADGrafoGenerico.GrafoGenerico;
-import TAD_TablaHash_ListaGenerica.TablaHashGenerica;
 import excepciones.NoExiste;
+import excepciones.YaExisteArista;
 
 import java.util.LinkedList;
 
 public class GrafoEstaciones { //TODO
-	private GrafoGenerico <ZonaRecarga, Integer> grafoEstaciones;
+	private GrafoGenerico <ZonaRecarga, Double> grafoEstaciones;
 	private ZonaRecarga zonaRecargaInicial; // un vertice perteneciente al grafo por el cual se comienza a hacer un recorrido
 
 	public GrafoEstaciones (int mida){
-		grafoEstaciones = new GrafoGenerico<ZonaRecarga, Integer>(mida);
+		grafoEstaciones = new GrafoGenerico<ZonaRecarga, Double>(mida);
 		zonaRecargaInicial = null; // Inicializamos el vertice inicial de recorridos
 	}
 
 	public GrafoEstaciones (LinkedList<ZonaRecarga> listaZonasRecarga){
-		grafoEstaciones = new GrafoGenerico<ZonaRecarga, Integer>(listaZonasRecarga.size()*2);
-		TablaHashGenerica<ZonaRecarga, Integer> tablaVisitas  = new TablaHashGenerica<>(grafoEstaciones.getMidaTablaVertices());
+		grafoEstaciones = new GrafoGenerico<ZonaRecarga, Double>(listaZonasRecarga.size()*2);
+		LinkedList<ZonaRecarga> listaZonasGrafo = new LinkedList<>();
 
 		for (ZonaRecarga zonaRecarga : listaZonasRecarga) { // añadimos todas las zonas al grafo
 			try {
-				addEstacion(zonaRecarga, tablaVisitas);
+				addEstacion(zonaRecarga, listaZonasGrafo);
 				if (zonaRecargaInicial == null) {
 					zonaRecargaInicial = zonaRecarga; // El vertice inicial de recorridos se asigna al primer nodo del grafo
 				}
@@ -38,37 +38,35 @@ public class GrafoEstaciones { //TODO
 	 * @param tablaVisitas
 	 * @throws NoExiste - Zona de recarga pasada por parametro es nulo
 	 */
-	public void addEstacion (ZonaRecarga newEstacion, TablaHashGenerica<ZonaRecarga, Integer> tablaVisitas) throws NoExiste {
+	public void addEstacion (ZonaRecarga newEstacion, LinkedList<ZonaRecarga> listaZonasGrafo) throws NoExiste {
 		ZonaRecarga estacionMasCercana = null;
 
 		// Añadimos el vertice
 		grafoEstaciones.agregarVertice(newEstacion);
 
 		if (zonaRecargaInicial != null) { // En caso de que no sea el primer nodo del grafo, añadimos aristas
-			añadirCarreteras(tablaVisitas);
+			// Recorremos la lista de vertices del grafo
+			double distancia;
+			for (ZonaRecarga vertice : listaZonasGrafo) {
+
+				distancia = vertice.distancia(newEstacion);
+				if (distancia <= 40){
+					try {
+						grafoEstaciones.agregarArista(vertice, newEstacion, distancia);
+					} catch (YaExisteArista e) {
+						e.printStackTrace(); // ERROR
+					}
+				} else if (estacionMasCercana == null || distancia < newEstacion.distancia(estacionMasCercana)) {
+					estacionMasCercana = vertice;
+				}
+			}
+
+			// Añadimos carreteras entre estaciones a menos de 40km
+
+			// Añadimos el más cercano si no hay ninguno a 40km
 		}
 
-		tablaVisitas.insertar(newEstacion, 0);
-		// 0 --> no visitado
-		// 1 --> visitado pero no terminado
-		// 2 --> visitado y terminado
-
-	}
-
-
-	private void añadirCarreteras(TablaHashGenerica<ZonaRecarga, Integer> tablaVisitas) throws NoExiste {
-		// Inicializamos la tabla de nodos visitados
-		for (ZonaRecarga vertice : tablaVisitas) {
-
-		}
-
-		for (ZonaRecarga vertice:grafoEstaciones.adyacentes(zonaRecargaInicial)) {
-
-		}
-
-		// Añadimos carreteras entre estaciones a menos de 40km
-
-		// Añadimos el más cercano si no hay ninguno a 40km
-
+		// Añadimos el nuevo vertice a la lista de estaciones que pertenecen al grafo
+		listaZonasGrafo.add(newEstacion);
 	}
 }

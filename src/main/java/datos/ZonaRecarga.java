@@ -38,16 +38,22 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 	 * Función que calcula la distancia euclidiana entre las coordenadas de dos zonas de recarga
 	 * @param zonaRecarga - zona de recarga sobre la que se quiere calcular la distancia respecto a la zona de recarga actual
 	 * @return la distancia (double) entre dos zonas de recarga
+	 * @throws NullPointerException - excepcion si zona de recarga es nulo
 	 */
 	public double distancia(ZonaRecarga zonaRecarga) {
-		final double  R = 6378.137;
+		if (zonaRecarga == null){
+			throw new NullPointerException();
+		}
 
+		final double  R = 6378.137; // Constante radio ecuatorial de la tierra
+
+		// Calculamos la latitud y longitud
 		double latitudA = zonaRecarga.latitud * Math.PI/180;
 		double longitudA = zonaRecarga.longitud * Math.PI/180;
-
 		double latitudB = this.latitud * Math.PI/180;
 		double longitudB = this.longitud * Math.PI/180;
 
+		// Calculamos la variación de la latitud y longitud
 		double variacionLatitud = latitudB-latitudA;
 		double variacionLongitud = longitudB-longitudA;
 

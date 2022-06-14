@@ -71,7 +71,7 @@ public class Vertice<V extends Comparable<V>, A> implements Comparable<Vertice<V
 		return dato.compareTo(vertix.dato);
 	}
 
-	//TODO colores para la impresión por consola
+	//colores para la impresión por consola
 	public static final String ANSI_GREEN = "\u001B[32m";
 	public static final String ANSI_BLUE = "\u001B[34m";
 	public static final String ANSI_PURPLE = "\u001B[35m";

@@ -14,7 +14,6 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 	private final double latitud, longitud;
 
 	public ZonaRecarga (Enchufe enchufe){
-		// this.id = enchufe.getLatitud() + "-" + enchufe.getLongitud(); //TODO
 		this.id = enchufe.getId();
 		listaEnchufes = new LinkedList<Enchufe>();
 		listaEnchufes.add(enchufe);
@@ -111,6 +110,10 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 
 		reader.close();
 		return listaZonas;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	@Override

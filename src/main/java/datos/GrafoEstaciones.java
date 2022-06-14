@@ -74,4 +74,30 @@ public class GrafoEstaciones { //TODO
 		// Añadimos el nuevo vertice a la lista de estaciones que pertenecen al grafo
 		listaZonasGrafo.add(newEstacion);
 	}
+
+	/**
+	 * Camino Optimo
+	 * @param id_origen estacion de recarga inicial
+	 * @param id_destino estacion de recarga final
+	 * @param autonomia distancia máxima del coche sin recargar
+	 * @return una lista que contiene todos los nombres de los puntos de carga por los que hay que pasar para llegar al destino
+	 * @exception NoExiste no se ha podido crear la lista de camino optimo
+	 */
+	LinkedList<String> caminoOptimo(String id_origen, String id_destino, int autonomia) throws NoExiste{
+		return null; //TODO
+	}
+
+	/**
+	 * Zonas con Distancia Máxima No Garantizada
+	 * @param id_origen estacion de recarga inicial
+	 * @param autonomia distancia máxima del coche que puede recorrer sin recargar
+	 * @return lista que contiene aquellas zonas de recarga que no cumplen la condicion de estar enlazadas con almentos otra zona de recarga a una distancia maxima determinada por la autonomia
+	 * @throws NoExiste no se ha podido crear la lista
+	 */
+	LinkedList<String> zonasDistMaxNoGarantizada(String id_origen, int autonomia) throws NoExiste{
+		return null; //TODO
+	}
+
+
+
 }

@@ -7,9 +7,9 @@ import excepciones.YaExisteArista;
 
 import java.util.LinkedList;
 
-public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGenerico<V, A> {
+public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGenerico<V, A> {
 
-	TablaHashGenerica<V, Vertice<V,A>> tablaVertices;
+	TablaHashGenerica<K, Vertice<K, V,A>> tablaVertices;
 
 	/**
 	 * Constructor de la clase GrafoGenerico
@@ -24,19 +24,19 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 	 * @param vertice - dato que se quiere añadir al grafo
 	 * @throws NoExiste - El vértice pasado por parámetro es nulo
 	 */
-	public void agregarVertice(V vertice) throws NoExiste{ // TODO la clave no es el vertice
-		if (vertice == null){
+	public void agregarVertice(K clave, V vertice) throws NoExiste{ // TODO la clave no es el vertice
+		if (vertice == null || clave == null){
 			throw new NoExiste("El vértice pasado por parámetro es nulo");
 		}
-		tablaVertices.insertar(vertice, new Vertice<V,A>(vertice));
+		tablaVertices.insertar(clave, new Vertice<K, V, A>(clave, vertice));
 	}
 
 	@Override
 	public void agregarArista(V vertice1, V vertice2, A arista) throws NoExiste, YaExisteArista {
 		try {
 			// Comprobamos los vertices
-			Vertice<V,A> nodoMenor = tablaVertices.obtener(vertice1);
-			Vertice<V,A> nodoMayor = tablaVertices.obtener(vertice2);
+			Vertice<K, V,A> nodoMenor = tablaVertices.obtener(vertice1);
+			Vertice<K, V,A> nodoMayor = tablaVertices.obtener(vertice2);
 
 			// Añadimos la arista siempre al vértice menor
 			if (nodoMenor.compareTo(nodoMayor)>0){ // nodoMenor es mayor que el nodoMayor, entonces los intercambiamos

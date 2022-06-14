@@ -1,16 +1,16 @@
 package TADGrafoGenerico;
 
-public class Arista<V extends Comparable<V>, A> {
+public class Arista<K extends Comparable<K>, V, A> {
 
 	private A dato;
 
 	// Punteros a las siguientes aristas del Vertice
-	private Arista<V, A> punteroAristaHorizontal;
-	private Arista<V, A> punteroAristaVertical;
+	private Arista<K, V, A> punteroAristaHorizontal;
+	private Arista<K, V, A> punteroAristaVertical;
 
 	// Referencias a los vertices que unen
-	private Vertice<V, A> referVerticeHorizontal;
-	private Vertice<V, A> referVerticeVertical;
+	private Vertice<K, V, A> referVerticeHorizontal;
+	private Vertice<K, V, A> referVerticeVertical;
 
 
 	// ************ ↓↓↓ MÉTODOS ↓↓↓ ***********
@@ -36,14 +36,14 @@ public class Arista<V extends Comparable<V>, A> {
 	 * Getter
 	 * @return el puntero al siguiente nodo Arista Horizontal, la nueva arista tiene el mismo vertice que el menor de esta arista
 	 */
-	public Arista<V, A> getPunteroAristaHorizontal() {
+	public Arista<K, V, A> getPunteroAristaHorizontal() {
 		return punteroAristaHorizontal;
 	}
 	/**
 	 * Getter
 	 * @return el puntero al siguiente nodo Arista Vertical, la nueva arista tiene el mismo vertice que el vertice mayor de esta arista
 	 */
-	public Arista<V, A> getPunteroAristaVertical() {
+	public Arista<K, V, A> getPunteroAristaVertical() {
 		return punteroAristaVertical;
 	}
 
@@ -51,7 +51,7 @@ public class Arista<V extends Comparable<V>, A> {
 	 * Setter
 	 * @param aristaHorizontal - nuevo puntero al siguiente nodo Arista Horizontal (ambas están unidas al vertice menor de esta arista)
 	 */
-	public void setNodoHorizontal(Arista<V, A> aristaHorizontal){
+	public void setNodoHorizontal(Arista<K, V, A> aristaHorizontal){
 		this.punteroAristaHorizontal = aristaHorizontal;
 	}
 
@@ -59,7 +59,7 @@ public class Arista<V extends Comparable<V>, A> {
 	 * Setter
 	 * @param aristaVertical - nuevo puntero al siguiente nodo Arista Vertical (ambas están unidas al vertice mayor de esta arista)
 	 */
-	public void setNodoVertical(Arista<V, A> aristaVertical){
+	public void setNodoVertical(Arista<K, V, A> aristaVertical){
 		this.punteroAristaVertical = aristaVertical;
 	}
 
@@ -67,7 +67,7 @@ public class Arista<V extends Comparable<V>, A> {
 	 * Setter
 	 * @param referVerticeHorizontal - nueva referencia de la arista a un vertice menor al que está unido
 	 */
-	public void setReferVerticeHorizontal(Vertice<V, A> referVerticeHorizontal) {
+	public void setReferVerticeHorizontal(Vertice<K, V, A> referVerticeHorizontal) {
 		this.referVerticeHorizontal = referVerticeHorizontal;
 	}
 
@@ -75,7 +75,7 @@ public class Arista<V extends Comparable<V>, A> {
 	 * Setter
 	 * @param referVerticeVertical - nueva referencia de la arista al vertice mayor al que está unido
 	 */
-	public void setReferVerticeVertical(Vertice<V, A> referVerticeVertical) {
+	public void setReferVerticeVertical(Vertice<K, V, A> referVerticeVertical) {
 		this.referVerticeVertical = referVerticeVertical;
 	}
 
@@ -94,7 +94,7 @@ public class Arista<V extends Comparable<V>, A> {
 	 * Getter
 	 * @return la referencia a uno de los vertices
 	 */
-	public Vertice<V, A> getReferVerticeHorizontal() {
+	public Vertice<K, V, A> getReferVerticeHorizontal() {
 		return referVerticeHorizontal;
 	}
 
@@ -102,7 +102,7 @@ public class Arista<V extends Comparable<V>, A> {
 	 * Getter
 	 * @return la referencia a otro de los vertices
 	 */
-	public Vertice<V, A> getReferVerticeVertical() {
+	public Vertice<K, V, A> getReferVerticeVertical() {
 		return referVerticeVertical;
 	}
 

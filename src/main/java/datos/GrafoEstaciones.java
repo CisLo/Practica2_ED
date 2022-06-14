@@ -39,31 +39,36 @@ public class GrafoEstaciones { //TODO
 	 * @throws NoExiste - Zona de recarga pasada por parametro es nulo
 	 */
 	public void addEstacion (ZonaRecarga newEstacion, LinkedList<ZonaRecarga> listaZonasGrafo) throws NoExiste {
-		ZonaRecarga estacionMasCercana = null;
+
 
 		// Añadimos el vertice
 		grafoEstaciones.agregarVertice(newEstacion);
 
 		if (zonaRecargaInicial != null) { // En caso de que no sea el primer nodo del grafo, añadimos aristas
 			// Recorremos la lista de vertices del grafo
+			ZonaRecarga estacionMasCercana = null;
+			boolean conectado = false;
 			double distancia;
-			for (ZonaRecarga vertice : listaZonasGrafo) {
 
-				distancia = vertice.distancia(newEstacion);
-				if (distancia <= 40){
-					try {
+			try {
+				for (ZonaRecarga vertice : listaZonasGrafo) {
+					distancia = vertice.distancia(newEstacion);
+					if (distancia <= 40) { // Añadimos carreteras entre estaciones a menos de 40km
 						grafoEstaciones.agregarArista(vertice, newEstacion, distancia);
-					} catch (YaExisteArista e) {
-						e.printStackTrace(); // ERROR
+						conectado = true;
+					} else if (estacionMasCercana == null || distancia < newEstacion.distancia(estacionMasCercana)) {
+						estacionMasCercana = vertice;
 					}
-				} else if (estacionMasCercana == null || distancia < newEstacion.distancia(estacionMasCercana)) {
-					estacionMasCercana = vertice;
 				}
+
+				// Añadimos el más cercano si no hay ninguno a 40km
+				if (!conectado) {
+					grafoEstaciones.agregarArista(newEstacion, estacionMasCercana, newEstacion.distancia(estacionMasCercana));
+				}
+
+			}catch (YaExisteArista e){
+				e.printStackTrace(); //ERROR
 			}
-
-			// Añadimos carreteras entre estaciones a menos de 40km
-
-			// Añadimos el más cercano si no hay ninguno a 40km
 		}
 
 		// Añadimos el nuevo vertice a la lista de estaciones que pertenecen al grafo

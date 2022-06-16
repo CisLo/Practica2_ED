@@ -1,6 +1,7 @@
 package datos;
 
 import TADGrafoGenerico.GrafoGenerico;
+import TAD_TablaHash_ListaGenerica.TablaHashGenerica;
 import excepciones.NoExiste;
 import excepciones.YaExisteArista;
 
@@ -84,6 +85,11 @@ public class GrafoEstaciones { //TODO
 	 * @exception NoExiste no se ha podido crear la lista de camino optimo
 	 */
 	LinkedList<String> caminoOptimo(String id_origen, String id_destino, int autonomia) throws NoExiste{
+		TablaHashGenerica<ZonaRecarga, Boolean> tablaVisitas;
+		TablaHashGenerica<ZonaRecarga, Double> tablaCostes;
+		TablaHashGenerica<ZonaRecarga, ZonaRecarga> tablaPredecesores;
+
+
 		return null; //TODO
 	}
 

@@ -98,6 +98,11 @@ public class GrafoEstaciones { //TODO
 		return null; //TODO
 	}
 
-
-
+	@Override
+	public String toString() {
+		return "GrafoEstaciones{" +
+				"grafoEstaciones=" + grafoEstaciones +
+				", zonaRecargaInicial=" + zonaRecargaInicial +
+				'}';
+	}
 }

@@ -14,11 +14,13 @@ public class AplicacionEstaciones {
 	public static void main(String[] args) throws FileNotFoundException { //TODO controlar excepcion
 		// Cargamos los datos de JSON al grafo
 		LinkedList<ZonaRecarga> listaZonas = ZonaRecarga.leerJson("src/main/resources/icaen.json");
-		//System.out.println(listaZonas);
+		//System.out.println(ZonaRecarga.zonasRepetidas(listaZonas));
+		//System.out.println(ZonaRecarga.repes(listaZonas));
+
 
 		// Añadimos las estaciones al grafo
 		GrafoEstaciones grafoEstaciones = new GrafoEstaciones(listaZonas);
 
-		System.out.println(listaZonas.get(0).distancia(listaZonas.get(listaZonas.size()-1)));
+		System.out.println(grafoEstaciones);
 	}
 }

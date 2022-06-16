@@ -1,16 +1,12 @@
-package aplicacion;
+package Juego_Pruebas;
 
-import com.google.gson.*;
-import datos.Enchufe;
 import datos.GrafoEstaciones;
 import datos.ZonaRecarga;
-import excepciones.NoExiste;
 
-import java.io.*;
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
-import java.util.Scanner;
 
-public class AplicacionEstaciones {
+public class PruebaZonaRecarga { //TODO MIRAR
 	public static void main(String[] args) throws FileNotFoundException { //TODO controlar excepcion
 		// Cargamos los datos de JSON al grafo
 		LinkedList<ZonaRecarga> listaZonas = ZonaRecarga.leerJson("src/main/resources/icaen.json");

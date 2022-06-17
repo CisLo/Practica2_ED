@@ -1,8 +1,10 @@
 package TADGrafoGenerico;
 
 import TAD_TablaHash_ListaGenerica.ClaveException;
+import TAD_TablaHash_ListaGenerica.ElementoNoEncontrado;
 import TAD_TablaHash_ListaGenerica.ListaGenerica;
 import TAD_TablaHash_ListaGenerica.TablaHashGenerica;
+import datos.ZonaRecarga;
 import excepciones.NoExiste;
 import excepciones.YaExisteArista;
 
@@ -153,6 +155,16 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 	//TODO encapsulación?
 	public ListaGenerica<K> getClavesVertices(){
 		return tablaVertices.obtenerClaves();
+	}
+
+	/**
+	 * Valor del vertice
+	 * @param idVertice - identificador/clave del vertice
+	 * @return valor del vertice que tiene ese id
+	 * @throws ClaveException - en caso de que no exista el vertice en el grafo
+	 */
+	public V valorVertice(K idVertice) throws ClaveException, NullPointerException {
+		return tablaVertices.obtener(idVertice).getDatos();
 	}
 
 	@Override

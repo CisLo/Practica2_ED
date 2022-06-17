@@ -217,6 +217,16 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 		return latitud == this.latitud && longitud == this.longitud;
 	}
 
+	public Enchufe getEnchufeMasPotencia(){
+		Enchufe enchufeMasPotencia = listaEnchufes.get(0);
+		for (Enchufe enchufe:listaEnchufes) {
+			if (enchufe.getPotencia() > enchufeMasPotencia.getPotencia()){
+				enchufeMasPotencia = enchufe;
+			}
+		}
+		return enchufeMasPotencia;
+	}
+
 	@Override
 	public int compareTo(ZonaRecarga zona) { //TODO
 		return this.id - zona.id; // negativo si este objeto es menor, 0 si son iguales, positivo si es mayor a la zona pasasado por parametro

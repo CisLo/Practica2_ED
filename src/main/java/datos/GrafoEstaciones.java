@@ -10,6 +10,7 @@ import excepciones.YaExisteArista;
 
 import javax.management.Query;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.PriorityQueue;
 
 public class GrafoEstaciones { //TODO
@@ -88,7 +89,7 @@ public class GrafoEstaciones { //TODO
 	 * @return una lista que contiene todos los nombres de los puntos de carga por los que hay que pasar para llegar al destino
 	 * @exception NoExiste no se ha podido crear la lista de camino optimo
 	 */
-	LinkedList<String> caminoOptimo(String id_origen, String id_destino, int autonomia) throws NoExiste{
+	public LinkedList<String> caminoOptimo(String id_origen, String id_destino, int autonomia) throws NoExiste{
 		Double peso;
 		Integer idOrigen = Integer.parseInt(id_origen);
 		ListaGenerica<Integer> listaZonas = grafoEstaciones.getClavesVertices(); //Lista de las claves
@@ -123,10 +124,10 @@ public class GrafoEstaciones { //TODO
 
 				// Para cada adyacente al vertice comprobamos si mejora la distancia
 				for (ZonaRecarga zona:grafoEstaciones.adyacentes(vertice)) {
-					double pesoActual = tablaCostes.obtener(zona.getId());
-					double pesoNuevo = tablaCostes.obtener(vertice) + grafoEstaciones.valorArista(vertice, zona.getId());
+					Double pesoActual = tablaCostes.obtener(zona.getId());
+					Double pesoNuevo = tablaCostes.obtener(vertice) + grafoEstaciones.valorArista(vertice, zona.getId());
 
-					if (pesoActual > pesoNuevo){
+					if (pesoActual == null || pesoActual > pesoNuevo){
 						tablaCostes.insertar(zona.getId(), pesoNuevo);
 						tablaPredecesores.insertar(zona.getId(), vertice);
 					}
@@ -135,13 +136,24 @@ public class GrafoEstaciones { //TODO
 			}
 		} catch (ClaveException e) {
 			e.printStackTrace();
+			throw new NoExiste(""); //TODO QUitar
 		}
 
 		// Generamos la ruta
+		LinkedList<String> ruta = new LinkedList<>();
+		Integer nodo = Integer.parseInt(id_destino);
 
+		try { // Obtenemos el nombre del enchufe con mayor potencia de la zona de recarga
+			ruta.add(grafoEstaciones.valorVertice(nodo).getEnchufeMasPotencia().getNom());
+			while (!Objects.equals(nodo, idOrigen)){ //Comparamos valores
+				nodo = tablaPredecesores.obtener(nodo);
+				ruta.add(grafoEstaciones.valorVertice(nodo).getEnchufeMasPotencia().getNom());
+			}
+		} catch (ClaveException e) {
+			e.printStackTrace();
+		}
 
-
-		return null; //TODO
+		return ruta;
 	}
 
 	private Integer elegirVerticeMinimoCoste(ListaGenerica<Integer> listaZonas, TablaHashGenerica<Integer, Boolean> tablaVisitas, TablaHashGenerica<Integer, Double> tablaCostes) {
@@ -149,16 +161,18 @@ public class GrafoEstaciones { //TODO
 		int index = 0;
 		Integer idZona;
 		Integer verticeElegido = null;
-		Double coste;
+		Double coste, costeVerticeElegido = null;
 		try { // Buscamos el vertice con menor coste y que no este visitado
 			while (index < listaZonas.longitud()) {
 				idZona = listaZonas.obtener(index);
 				if (!tablaVisitas.obtener(idZona)) { // Vertice no visitado
 					coste = tablaCostes.obtener(idZona);
-					if(verticeElegido == null || coste != null && coste < tablaCostes.obtener(verticeElegido)){ // Vertice con menor coste
+					if(verticeElegido == null || coste != null && (costeVerticeElegido==null || coste < costeVerticeElegido)){ // Vertice con menor coste
 						verticeElegido = idZona; //Entonces se elige el vertice
+						costeVerticeElegido = tablaCostes.obtener(verticeElegido);
 					}
 				}
+				index++;
 			}
 		} catch (ClaveException | PosicionIncorrectaException e) {
 			e.printStackTrace();
@@ -181,6 +195,7 @@ public class GrafoEstaciones { //TODO
 				if (!tablaVisitas.obtener(idZona)) {
 					visitadosTodos = false;
 				}
+				index++;
 			}
 		} catch (ClaveException | PosicionIncorrectaException e) {
 			e.printStackTrace();
@@ -195,7 +210,7 @@ public class GrafoEstaciones { //TODO
 	 * @return lista que contiene aquellas zonas de recarga que no cumplen la condicion de estar enlazadas con almentos otra zona de recarga a una distancia maxima determinada por la autonomia
 	 * @throws NoExiste no se ha podido crear la lista
 	 */
-	LinkedList<String> zonasDistMaxNoGarantizada(String id_origen, int autonomia) throws NoExiste{
+	public LinkedList<String> zonasDistMaxNoGarantizada(String id_origen, int autonomia) throws NoExiste{
 		return null; //TODO
 	}
 

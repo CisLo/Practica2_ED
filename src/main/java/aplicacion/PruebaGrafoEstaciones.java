@@ -2,6 +2,7 @@ package aplicacion;
 
 import datos.GrafoEstaciones;
 import datos.ZonaRecarga;
+import excepciones.NoExiste;
 
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
@@ -16,7 +17,13 @@ public class PruebaGrafoEstaciones {
 
 		// Añadimos las estaciones al grafo
 		GrafoEstaciones grafoEstaciones = new GrafoEstaciones(listaZonas);
-
 		System.out.println(grafoEstaciones);
+
+		try {
+			LinkedList<String> ruta = grafoEstaciones.caminoOptimo("9165", "9168", 30);
+			System.out.println(ruta);
+		} catch (NoExiste e) {
+			e.printStackTrace();
+		}
 	}
 }

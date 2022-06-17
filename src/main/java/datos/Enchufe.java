@@ -39,6 +39,14 @@ public class Enchufe {
 		return id;
 	}
 
+	public double getPotencia(){
+		return Double.parseDouble(potencia);
+	}
+
+	public String getNom(){
+		return nom;
+	}
+
 	@Override
 	public String toString() {
 		return "\n\tEnchufe{" +

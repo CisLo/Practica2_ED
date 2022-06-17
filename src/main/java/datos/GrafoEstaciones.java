@@ -97,7 +97,7 @@ public class GrafoEstaciones { //TODO
 		int mida = grafoEstaciones.getMidaTablaVertices();
 		TablaHashGenerica<Integer, Boolean> tablaVisitas = new TablaHashGenerica<>(mida);
 		TablaHashGenerica<Integer, Double> tablaCostes = new TablaHashGenerica<>(mida);
-		TablaHashGenerica<Integer, ZonaRecarga> tablaPredecesores =new TablaHashGenerica<>(mida);
+		TablaHashGenerica<Integer, Integer> tablaPredecesores =new TablaHashGenerica<>(mida);
 
 		// Inicializamos las tablas auxiliares
 		for (Integer idZona: listaZonas) {
@@ -116,11 +116,29 @@ public class GrafoEstaciones { //TODO
 		tablaVisitas.insertar(idOrigen,true);
 
 		// Bucle Dijkstra
-		while(!isVisitadosTodos(listaZonas, tablaVisitas)) {
-			Integer vertice = elegirVerticeMinimoCoste(listaZonas, tablaVisitas, tablaCostes);
+		try{
+			while(!isVisitadosTodos(listaZonas, tablaVisitas)) {
+				Integer vertice = elegirVerticeMinimoCoste(listaZonas, tablaVisitas, tablaCostes);
+				tablaVisitas.insertar(vertice, true); // Lo marcamos como visitados
 
+				// Para cada adyacente al vertice comprobamos si mejora la distancia
+				for (ZonaRecarga zona:grafoEstaciones.adyacentes(vertice)) {
+					double pesoActual = tablaCostes.obtener(zona.getId());
+					double pesoNuevo = tablaCostes.obtener(vertice) + grafoEstaciones.valorArista(vertice, zona.getId());
 
+					if (pesoActual > pesoNuevo){
+						tablaCostes.insertar(zona.getId(), pesoNuevo);
+						tablaPredecesores.insertar(zona.getId(), vertice);
+					}
+				}
+
+			}
+		} catch (ClaveException e) {
+			e.printStackTrace();
 		}
+
+		// Generamos la ruta
+
 
 
 		return null; //TODO
@@ -137,13 +155,16 @@ public class GrafoEstaciones { //TODO
 				idZona = listaZonas.obtener(index);
 				if (!tablaVisitas.obtener(idZona)) { // Vertice no visitado
 					coste = tablaCostes.obtener(idZona);
-					if(verticeElegido == null || coste != null || coste < tablaCostes.obtener(verticeElegido)){ // Vertice con menor coste
+					if(verticeElegido == null || coste != null && coste < tablaCostes.obtener(verticeElegido)){ // Vertice con menor coste
 						verticeElegido = idZona; //Entonces se elige el vertice
 					}
 				}
 			}
 		} catch (ClaveException | PosicionIncorrectaException e) {
 			e.printStackTrace();
+		}
+		if (verticeElegido == null){
+			throw new NullPointerException("No se ha podido escoger un vertice");
 		}
 		return  verticeElegido;
 	}

@@ -7,16 +7,16 @@ import excepciones.NoExiste;
 import java.util.LinkedList;
 
 public class GrafoEstaciones { //TODO
-	private GrafoGenerico <ZonaRecarga, Integer> grafoEstaciones;
+	private GrafoGenerico <Integer, ZonaRecarga, Integer> grafoEstaciones;
 	private ZonaRecarga zonaRecargaInicial; // un vertice perteneciente al grafo por el cual se comienza a hacer un recorrido
 
 	public GrafoEstaciones (int mida){
-		grafoEstaciones = new GrafoGenerico<ZonaRecarga, Integer>(mida);
+		grafoEstaciones = new GrafoGenerico<Integer, ZonaRecarga, Integer>(mida);
 		zonaRecargaInicial = null; // Inicializamos el vertice inicial de recorridos
 	}
 
 	public GrafoEstaciones (LinkedList<ZonaRecarga> listaZonasRecarga){
-		grafoEstaciones = new GrafoGenerico<ZonaRecarga, Integer>(listaZonasRecarga.size()*2);
+		grafoEstaciones = new GrafoGenerico<Integer, ZonaRecarga, Integer>(listaZonasRecarga.size()*2);
 		TablaHashGenerica<ZonaRecarga, Integer> tablaVisitas  = new TablaHashGenerica<>(grafoEstaciones.getMidaTablaVertices());
 
 		for (ZonaRecarga zonaRecarga : listaZonasRecarga) { // añadimos todas las zonas al grafo
@@ -42,7 +42,7 @@ public class GrafoEstaciones { //TODO
 		ZonaRecarga estacionMasCercana = null;
 
 		// Añadimos el vertice
-		grafoEstaciones.agregarVertice(newEstacion);
+		grafoEstaciones.agregarVertice(newEstacion.getId(), newEstacion);
 
 		if (zonaRecargaInicial != null) { // En caso de que no sea el primer nodo del grafo, añadimos aristas
 			añadirCarreteras(tablaVisitas);

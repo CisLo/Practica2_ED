@@ -7,7 +7,7 @@ import excepciones.YaExisteArista;
 
 import java.util.LinkedList;
 
-public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGenerico<V, A> {
+public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGenerico<K, V, A> {
 
 	TablaHashGenerica<K, Vertice<K, V, A>> tablaVertices;
 
@@ -31,7 +31,7 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 		tablaVertices.insertar(clave, new Vertice<K, V, A>(clave, vertice));
 	}
 
-	@Override
+
 	public void agregarArista(K vertice1, K vertice2, A arista) throws NoExiste, YaExisteArista {
 		try {
 			// Comprobamos los vertices
@@ -65,7 +65,7 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 		}
 	}
 
-	@Override
+
 	public boolean existeArista(K vertice1, K vertice2) {
 		boolean existe = true;
 		try{
@@ -76,7 +76,7 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 		return existe;
 	}
 
-	@Override
+
 	public A valorArista(K vertice1, K vertice2) throws NoExiste {
 		return buscarArista(vertice1, vertice2).getDatos();
 	}
@@ -116,12 +116,12 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 	}
 
 
-	@Override
+
 	public LinkedList<V> adyacentes(K vertice) throws NoExiste {
 		LinkedList<V> listaVertices = new LinkedList<>();
 
 		try {
-			Vertice<K, V,A> nodoInicio = tablaVertices.obtener(vertice);
+			Vertice<K, V, A> nodoInicio = tablaVertices.obtener(vertice);
 
 			Arista<K, V, A> aristaHorizontal = nodoInicio.getPunteroAristaHorizontal();
 			Arista<K, V, A> aristaVertical = nodoInicio.getPunteroAristaVertical();

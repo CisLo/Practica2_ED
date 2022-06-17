@@ -115,16 +115,37 @@ public class GrafoEstaciones { //TODO
 		tablaCostes.insertar(idOrigen, 0.0); // Coste de la arista inicial es 0
 		tablaVisitas.insertar(idOrigen,true);
 
-
-		boolean visitadosTodos = false;
+		// Bucle Dijkstra
 		while(!isVisitadosTodos(listaZonas, tablaVisitas)) {
-
+			Integer vertice = elegirVerticeMinimoCoste(listaZonas, tablaVisitas, tablaCostes);
 
 
 		}
 
 
 		return null; //TODO
+	}
+
+	private Integer elegirVerticeMinimoCoste(ListaGenerica<Integer> listaZonas, TablaHashGenerica<Integer, Boolean> tablaVisitas, TablaHashGenerica<Integer, Double> tablaCostes) {
+		// Inicializamos bucle
+		int index = 0;
+		Integer idZona;
+		Integer verticeElegido = null;
+		Double coste;
+		try { // Buscamos el vertice con menor coste y que no este visitado
+			while (index < listaZonas.longitud()) {
+				idZona = listaZonas.obtener(index);
+				if (!tablaVisitas.obtener(idZona)) { // Vertice no visitado
+					coste = tablaCostes.obtener(idZona);
+					if(verticeElegido == null || coste != null || coste < tablaCostes.obtener(verticeElegido)){ // Vertice con menor coste
+						verticeElegido = idZona; //Entonces se elige el vertice
+					}
+				}
+			}
+		} catch (ClaveException | PosicionIncorrectaException e) {
+			e.printStackTrace();
+		}
+		return  verticeElegido;
 	}
 
 	private boolean isVisitadosTodos(ListaGenerica<Integer> listaZonas, TablaHashGenerica<Integer, Boolean> tablaVisitas) {

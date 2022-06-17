@@ -1,11 +1,14 @@
 package datos;
 
 import TADGrafoGenerico.GrafoGenerico;
+import TAD_TablaHash_ListaGenerica.ListaGenerica;
 import TAD_TablaHash_ListaGenerica.TablaHashGenerica;
 import excepciones.NoExiste;
 import excepciones.YaExisteArista;
 
+import javax.management.Query;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 public class GrafoEstaciones { //TODO
 	private GrafoGenerico <ZonaRecarga, Double> grafoEstaciones;
@@ -85,9 +88,23 @@ public class GrafoEstaciones { //TODO
 	 * @exception NoExiste no se ha podido crear la lista de camino optimo
 	 */
 	LinkedList<String> caminoOptimo(String id_origen, String id_destino, int autonomia) throws NoExiste{
-		TablaHashGenerica<ZonaRecarga, Boolean> tablaVisitas;
-		TablaHashGenerica<ZonaRecarga, Double> tablaCostes;
-		TablaHashGenerica<ZonaRecarga, ZonaRecarga> tablaPredecesores;
+		// Creamos las tablas auxiliares de Dijkstra
+		int mida = grafoEstaciones.getMidaTablaVertices();
+		TablaHashGenerica<Integer, Boolean> tablaVisitas = new TablaHashGenerica<>(mida);
+		TablaHashGenerica<Integer, Double> tablaCostes = new TablaHashGenerica<>(mida);
+		TablaHashGenerica<Integer, ZonaRecarga> tablaPredecesores =new TablaHashGenerica<>(mida);
+
+		ListaGenerica<ZonaRecarga> listaZonas = grafoEstaciones.getClavesVertices();
+
+		// Inicializamos las tablas auxiliares
+		for (ZonaRecarga zona: listaZonas) {
+			tablaVisitas.insertar(zona.getId(), false); // Marcamos todas como no visitadas
+			double peso = grafoEstaciones.valorArista()
+			tablaCostes.insertar(zona.getId(), null); // Marcamos a todas como que el coste es infinito
+			tablaPredecesores.insertar(zona.getId(), null); // Marcamos a todas como que no tienen predecesor
+		}
+		tablaCostes.insertar(Integer.parseInt(id_origen), 0.0);
+
 
 
 		return null; //TODO

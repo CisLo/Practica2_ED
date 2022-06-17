@@ -1,7 +1,9 @@
 package TADGrafoGenerico;
 
 import TAD_TablaHash_ListaGenerica.ClaveException;
+import TAD_TablaHash_ListaGenerica.ListaGenerica;
 import TAD_TablaHash_ListaGenerica.TablaHashGenerica;
+import datos.ZonaRecarga;
 import excepciones.NoExiste;
 import excepciones.YaExisteArista;
 
@@ -147,6 +149,12 @@ public class GrafoGenerico<V extends Comparable<V>, A> implements TADGrafoGeneri
 
 	public int getMidaTablaVertices(){
 		return tablaVertices.midaTabla();
+	}
+
+
+	//TODO encapsulación?
+	public ListaGenerica<V> getClavesVertices(){
+		return tablaVertices.obtenerClaves();
 	}
 
 	@Override

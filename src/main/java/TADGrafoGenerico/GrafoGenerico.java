@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGenerico<V, A> {
 
-	TablaHashGenerica<K, Vertice<K, V,A>> tablaVertices;
+	TablaHashGenerica<K, Vertice<K, V, A>> tablaVertices;
 
 	/**
 	 * Constructor de la clase GrafoGenerico
@@ -32,7 +32,7 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 	}
 
 	@Override
-	public void agregarArista(V vertice1, V vertice2, A arista) throws NoExiste, YaExisteArista {
+	public void agregarArista(K vertice1, K vertice2, A arista) throws NoExiste, YaExisteArista {
 		try {
 			// Comprobamos los vertices
 			Vertice<K, V,A> nodoMenor = tablaVertices.obtener(vertice1);
@@ -50,7 +50,7 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 			}
 
 			// Creamos la arista y la unimos
-			Arista<V, A> nodoArista = new Arista<V, A>(arista);
+			Arista<K, V, A> nodoArista = new Arista<K, V, A>(arista);
 			nodoArista.setReferVerticeHorizontal(nodoMenor); // Lo unimos al vertice menor
 			nodoArista.setReferVerticeVertical(nodoMayor); // Lo unimos al vertice mayor
 			//TODO unir ordenado??
@@ -66,7 +66,7 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 	}
 
 	@Override
-	public boolean existeArista(V vertice1, V vertice2) {
+	public boolean existeArista(K vertice1, K vertice2) {
 		boolean existe = true;
 		try{
 			buscarArista(vertice1, vertice2);
@@ -77,17 +77,17 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 	}
 
 	@Override
-	public A valorArista(V vertice1, V vertice2) throws NoExiste {
+	public A valorArista(K vertice1, K vertice2) throws NoExiste {
 		return buscarArista(vertice1, vertice2).getDatos();
 	}
 
-	private Arista<V, A> buscarArista(V vertice1, V vertice2) throws NoExiste{
+	private Arista<K, V, A> buscarArista(K vertice1, K vertice2) throws NoExiste{
 		boolean existe = false;
-		Arista<V, A> aristaHorizontal = null;
+		Arista<K, V, A> aristaHorizontal = null;
 
 		try {
-			Vertice<V,A> nodoMenor = tablaVertices.obtener(vertice1);
-			Vertice<V,A> nodoMayor = tablaVertices.obtener(vertice2);
+			Vertice<K, V, A> nodoMenor = tablaVertices.obtener(vertice1);
+			Vertice<K, V, A> nodoMayor = tablaVertices.obtener(vertice2);
 
 			// Identificamos el nodoMenor y nodoMayor
 			if (nodoMenor.compareTo(nodoMayor)>0){ // nodoMenor es mayor que el nodoMayor, entonces los intercambiamos
@@ -117,14 +117,14 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 
 
 	@Override
-	public LinkedList<V> adyacentes(V vertice) throws NoExiste {
+	public LinkedList<V> adyacentes(K vertice) throws NoExiste {
 		LinkedList<V> listaVertices = new LinkedList<>();
 
 		try {
-			Vertice<V,A> nodoInicio = tablaVertices.obtener(vertice);
+			Vertice<K, V,A> nodoInicio = tablaVertices.obtener(vertice);
 
-			Arista<V, A> aristaHorizontal = nodoInicio.getPunteroAristaHorizontal();
-			Arista<V, A> aristaVertical = nodoInicio.getPunteroAristaVertical();
+			Arista<K, V, A> aristaHorizontal = nodoInicio.getPunteroAristaHorizontal();
+			Arista<K, V, A> aristaVertical = nodoInicio.getPunteroAristaVertical();
 
 			// Cuando el vértice es mayor que el otro vértice al que está unido
 			while (aristaVertical != null){

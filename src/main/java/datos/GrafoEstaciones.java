@@ -1,7 +1,9 @@
 package datos;
 
 import TADGrafoGenerico.GrafoGenerico;
+import TAD_TablaHash_ListaGenerica.ClaveException;
 import TAD_TablaHash_ListaGenerica.ListaGenerica;
+import TAD_TablaHash_ListaGenerica.PosicionIncorrectaException;
 import TAD_TablaHash_ListaGenerica.TablaHashGenerica;
 import excepciones.NoExiste;
 import excepciones.YaExisteArista;
@@ -108,14 +110,40 @@ public class GrafoEstaciones { //TODO
 			tablaCostes.insertar(idZona, peso); // Marcamos a todas como su coste correspondiente
 			tablaPredecesores.insertar(idZona, null); // Marcamos a todas como que no tienen predecesor
 		}
+
+		// Empezamos por el nodo inicial
 		tablaCostes.insertar(idOrigen, 0.0); // Coste de la arista inicial es 0
 		tablaVisitas.insertar(idOrigen,true);
 
 
+		boolean visitadosTodos = false;
+		while(!isVisitadosTodos(listaZonas, tablaVisitas)) {
 
+
+
+		}
 
 
 		return null; //TODO
+	}
+
+	private boolean isVisitadosTodos(ListaGenerica<Integer> listaZonas, TablaHashGenerica<Integer, Boolean> tablaVisitas) {
+		// Inicializamos bucle
+		boolean visitadosTodos;
+		visitadosTodos = true;
+		int index = 0;
+		Integer idZona;
+		try { // Recorremos todos los vertices del grafo y comprobamos si estan visitados en la tabla de visitas
+			while (visitadosTodos && index < listaZonas.longitud()) {
+				idZona = listaZonas.obtener(index);
+				if (!tablaVisitas.obtener(idZona)) {
+					visitadosTodos = false;
+				}
+			}
+		} catch (ClaveException | PosicionIncorrectaException e) {
+			e.printStackTrace();
+		}
+		return visitadosTodos;
 	}
 
 	/**

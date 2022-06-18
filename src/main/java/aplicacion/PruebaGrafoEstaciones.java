@@ -20,7 +20,13 @@ public class PruebaGrafoEstaciones {
 		//System.out.println(grafoEstaciones);
 
 		try {
-			LinkedList<String> ruta = grafoEstaciones.caminoOptimo("9165", "34252288", 30);
+			LinkedList<String> ruta = grafoEstaciones.caminoOptimo("9165", "9168", 100);
+			System.out.println(ruta);
+
+			ruta = grafoEstaciones.caminoOptimo("9165", "34252288", 20);
+			System.out.println(ruta);
+
+			ruta = grafoEstaciones.caminoOptimo("9165", "34252288", 50);
 			System.out.println(ruta);
 
 			ruta = grafoEstaciones.caminoOptimo("13361299", "34252288", 30);
@@ -35,7 +41,7 @@ public class PruebaGrafoEstaciones {
 			ruta = grafoEstaciones.caminoOptimo("13361299", "1", 30);
 			System.out.println(ruta); // ERROR
 		} catch (NoExiste e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());;
 		}
 	}
 }

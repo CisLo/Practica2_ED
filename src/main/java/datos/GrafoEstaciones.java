@@ -123,26 +123,32 @@ public class GrafoEstaciones { //TODO
 
 
 		try{ // Bucle Dijkstra
-			while(vertice != destino && !isVisitadosTodos(listaZonas, tablaVisitas)) {
+			while(!destino.equals(vertice) && !isVisitadosTodos(listaZonas, tablaVisitas)) {
 				// Lo marcamos como visitados
 				tablaVisitas.insertar(vertice, true);
 
 				// Para cada adyacente al vertice comprobamos si mejora la distancia
 				for (ZonaRecarga zona:grafoEstaciones.adyacentes(vertice)) {
 					Double pesoActual = tablaCostes.obtener(zona.getId());
-					Double pesoNuevo = tablaCostes.obtener(vertice) + grafoEstaciones.valorArista(vertice, zona.getId());
+					Double costeArista = grafoEstaciones.valorArista(vertice, zona.getId());
+					if (costeArista <= autonomia) { // Descartamos las aristas por las que no puede pasar el coche
+						Double pesoNuevo = tablaCostes.obtener(vertice) + costeArista;
 
-					if (pesoActual == null || pesoActual > pesoNuevo){ // Si mejora el coste, actualizamos el coste y predecesor
-						tablaCostes.insertar(zona.getId(), pesoNuevo);
-						tablaPredecesores.insertar(zona.getId(), vertice);
+						if (pesoActual == null || pesoActual > pesoNuevo) { // Si mejora el coste, actualizamos el coste y predecesor
+							tablaCostes.insertar(zona.getId(), pesoNuevo);
+							tablaPredecesores.insertar(zona.getId(), vertice);
+						}
 					}
 				}
 				// Elegimos el siguiente vertice, y si
 				vertice = elegirVerticeMinimoCoste(listaZonas, tablaVisitas, tablaCostes);
 			}
 		} catch (ClaveException e) {
-			e.printStackTrace();
-			throw new NoExiste(""); //TODO Quitar
+			e.printStackTrace(); // Error
+		}
+
+		if (!destino.equals(vertice)){
+			throw new NoExiste("No se ha podido alcanzar el destino con un coche con esa autonomia");
 		}
 
 		// Generamos la ruta
@@ -163,7 +169,7 @@ public class GrafoEstaciones { //TODO
 		return ruta;
 	}
 
-	private Integer elegirVerticeMinimoCoste(ListaGenerica<Integer> listaZonas, TablaHashGenerica<Integer, Boolean> tablaVisitas, TablaHashGenerica<Integer, Double> tablaCostes) {
+	private Integer elegirVerticeMinimoCoste(ListaGenerica<Integer> listaZonas, TablaHashGenerica<Integer, Boolean> tablaVisitas, TablaHashGenerica<Integer, Double> tablaCostes) throws NoExiste {
 		// Inicializamos bucle
 		int index = 0;
 		Integer idZona;
@@ -181,9 +187,13 @@ public class GrafoEstaciones { //TODO
 				}
 				index++;
 			}
+			if (tablaCostes.obtener(verticeElegido) == null){
+				throw new NoExiste("No se puede alcanzar el destino");
+			}
 		} catch (ClaveException | PosicionIncorrectaException e) {
 			e.printStackTrace();
 		}
+
 		return  verticeElegido;
 	}
 

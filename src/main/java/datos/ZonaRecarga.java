@@ -221,8 +221,12 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 	public Enchufe getEnchufeMasPotencia(){
 		Enchufe enchufeMasPotencia = listaEnchufes.get(0);
 		for (Enchufe enchufe:listaEnchufes) {
-			if (enchufe.getPotencia() > enchufeMasPotencia.getPotencia()){
-				enchufeMasPotencia = enchufe;
+			try {
+				if (enchufe.getPotencia() > enchufeMasPotencia.getPotencia()){
+					enchufeMasPotencia = enchufe;
+				}
+			} catch (NumberFormatException e){
+				// No hacer nada
 			}
 		}
 		return enchufeMasPotencia;

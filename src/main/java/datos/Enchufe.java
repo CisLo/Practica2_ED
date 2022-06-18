@@ -39,6 +39,11 @@ public class Enchufe {
 		return id;
 	}
 
+	/**
+	 * Getter de la potencia del enchufe
+	 * @return la potencia del enchufe
+	 * @throws NumberFormatException - cuando no se tiene informacion sobre la potencia del enchufe
+	 */
 	public double getPotencia(){
 		return Double.parseDouble(potencia);
 	}

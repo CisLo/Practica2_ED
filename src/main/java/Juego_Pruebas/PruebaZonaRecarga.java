@@ -16,8 +16,6 @@ public class PruebaZonaRecarga {
 		pruebaPotencia(listaPruebas);
 
 		pruebaDistancia(listaPruebas);
-
-
 	}
 
 	private static void pruebaDistancia(LinkedList<ZonaRecarga> listaPruebas) {

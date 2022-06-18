@@ -51,6 +51,7 @@ public class GrafoEstaciones { //TODO
 			boolean conectado = false;
 			double distancia;
 
+			//TODO puedo hacer esto tambien grafoEstaciones.getClavesVertices();
 			try {
 				for (ZonaRecarga vertice : listaZonasGrafo) {
 					distancia = vertice.distancia(newEstacion);

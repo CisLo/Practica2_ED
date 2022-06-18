@@ -1,17 +1,12 @@
 package datos;
 
-import TADGrafoGenerico.GrafoGenerico;
-import TAD_TablaHash_ListaGenerica.ClaveException;
-import TAD_TablaHash_ListaGenerica.ListaGenerica;
-import TAD_TablaHash_ListaGenerica.PosicionIncorrectaException;
-import TAD_TablaHash_ListaGenerica.TablaHashGenerica;
-import excepciones.NoExiste;
-import excepciones.YaExisteArista;
-
-import javax.management.Query;
 import java.util.LinkedList;
 import java.util.Objects;
-import java.util.PriorityQueue;
+
+import TADGrafoGenerico.GrafoGenerico;
+import TAD_TablaHash_ListaGenerica.*;
+import excepciones.NoExiste;
+import excepciones.YaExisteArista;
 
 public class GrafoEstaciones { //TODO
 	private GrafoGenerico <Integer, ZonaRecarga, Double> grafoEstaciones;
@@ -90,8 +85,15 @@ public class GrafoEstaciones { //TODO
 	 * @exception NoExiste no se ha podido crear la lista de camino optimo
 	 */
 	public LinkedList<String> caminoOptimo(String id_origen, String id_destino, int autonomia) throws NoExiste{
+		// Comprobamos parametros validos
+		if(id_origen == null || id_destino == null || autonomia <= 0) {
+			throw new NoExiste("Parametros no validos introducidos en funcion: camino optimo");
+		}
+
+		// Obtenemos los vertices del grafo
 		Double peso;
-		Integer idOrigen = Integer.parseInt(id_origen);
+		Integer destino = Integer.parseInt(id_destino);
+		Integer origen = Integer.parseInt(id_origen);
 		ListaGenerica<Integer> listaZonas = grafoEstaciones.getClavesVertices(); //Lista de las claves
 
 		// Creamos las tablas auxiliares de Dijkstra
@@ -103,51 +105,56 @@ public class GrafoEstaciones { //TODO
 		// Inicializamos las tablas auxiliares
 		for (Integer idZona: listaZonas) {
 			tablaVisitas.insertar(idZona, false); // Marcamos todas como no visitadas
-			try {
-				peso = grafoEstaciones.valorArista(idOrigen, idZona); // El coste será el de arista inicial al resto
-			}catch (NoExiste e){
-				peso = null; // El coste es infinito si no existe la arista
-			}
-			tablaCostes.insertar(idZona, peso); // Marcamos a todas como su coste correspondiente
+			tablaCostes.insertar(idZona, null); // Marcamos a todas como su coste correspondiente
 			tablaPredecesores.insertar(idZona, null); // Marcamos a todas como que no tienen predecesor
 		}
 
-		// Empezamos por el nodo inicial
-		tablaCostes.insertar(idOrigen, 0.0); // Coste de la arista inicial es 0
-		tablaVisitas.insertar(idOrigen,true);
+		// Comprobamos la existencia del nodo de origen y el nodo de destino en el grafo
+		try {
+			tablaVisitas.buscar(origen);
+			tablaVisitas.buscar(destino);
+		} catch (ElementoNoEncontrado e) {
+			throw new NoExiste("El nodo de origen o de destino no se encuentra en el grafo");
+		}
 
-		// Bucle Dijkstra
-		try{
-			while(!isVisitadosTodos(listaZonas, tablaVisitas)) {
-				Integer vertice = elegirVerticeMinimoCoste(listaZonas, tablaVisitas, tablaCostes);
-				tablaVisitas.insertar(vertice, true); // Lo marcamos como visitados
+		// Empezamos por el nodo inicial
+		Integer vertice = origen;
+		tablaCostes.insertar(vertice, 0.0); // Coste de la arista inicial es 0
+
+
+		try{ // Bucle Dijkstra
+			while(vertice != destino && !isVisitadosTodos(listaZonas, tablaVisitas)) {
+				// Lo marcamos como visitados
+				tablaVisitas.insertar(vertice, true);
 
 				// Para cada adyacente al vertice comprobamos si mejora la distancia
 				for (ZonaRecarga zona:grafoEstaciones.adyacentes(vertice)) {
 					Double pesoActual = tablaCostes.obtener(zona.getId());
 					Double pesoNuevo = tablaCostes.obtener(vertice) + grafoEstaciones.valorArista(vertice, zona.getId());
 
-					if (pesoActual == null || pesoActual > pesoNuevo){
+					if (pesoActual == null || pesoActual > pesoNuevo){ // Si mejora el coste, actualizamos el coste y predecesor
 						tablaCostes.insertar(zona.getId(), pesoNuevo);
 						tablaPredecesores.insertar(zona.getId(), vertice);
 					}
 				}
-
+				// Elegimos el siguiente vertice, y si
+				vertice = elegirVerticeMinimoCoste(listaZonas, tablaVisitas, tablaCostes);
 			}
 		} catch (ClaveException e) {
 			e.printStackTrace();
-			throw new NoExiste(""); //TODO QUitar
+			throw new NoExiste(""); //TODO Quitar
 		}
 
 		// Generamos la ruta
 		LinkedList<String> ruta = new LinkedList<>();
-		Integer nodo = Integer.parseInt(id_destino);
+
 
 		try { // Obtenemos el nombre del enchufe con mayor potencia de la zona de recarga
-			ruta.add(grafoEstaciones.valorVertice(nodo).getEnchufeMasPotencia().getNom());
-			while (!Objects.equals(nodo, idOrigen)){ //Comparamos valores
-				nodo = tablaPredecesores.obtener(nodo);
-				ruta.add(grafoEstaciones.valorVertice(nodo).getEnchufeMasPotencia().getNom());
+			ruta.add(grafoEstaciones.valorVertice(destino).getEnchufeMasPotencia().getNom());
+			while (!Objects.equals(destino, origen)){ //Comparamos valores
+				destino = tablaPredecesores.obtener(destino);
+				ruta.add(0, grafoEstaciones.valorVertice(destino).getEnchufeMasPotencia().getNom());
+
 			}
 		} catch (ClaveException e) {
 			e.printStackTrace();
@@ -176,9 +183,6 @@ public class GrafoEstaciones { //TODO
 			}
 		} catch (ClaveException | PosicionIncorrectaException e) {
 			e.printStackTrace();
-		}
-		if (verticeElegido == null){
-			throw new NullPointerException("No se ha podido escoger un vertice");
 		}
 		return  verticeElegido;
 	}

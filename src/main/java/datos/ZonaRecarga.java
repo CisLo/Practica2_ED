@@ -1,12 +1,11 @@
 package datos;
 
-import com.google.gson.Gson;
-import excepciones.NoExiste;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Scanner;
+
+import com.google.gson.Gson;
 
 public class ZonaRecarga implements Comparable<ZonaRecarga> {
 	private final int id;
@@ -114,6 +113,7 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 		}
 		listaZonas.add(zona); // Guardamos la última zona de recarga
 
+		leer.close();
 		reader.close();
 		return listaZonas;
 	}
@@ -170,6 +170,7 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 			}
 		}
 
+		leer.close();
 		reader.close();
 		return listaZonas;
 	}

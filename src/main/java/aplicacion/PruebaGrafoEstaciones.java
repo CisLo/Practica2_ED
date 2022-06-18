@@ -17,11 +17,23 @@ public class PruebaGrafoEstaciones {
 
 		// Añadimos las estaciones al grafo
 		GrafoEstaciones grafoEstaciones = new GrafoEstaciones(listaZonas);
-		System.out.println(grafoEstaciones);
+		//System.out.println(grafoEstaciones);
 
 		try {
-			LinkedList<String> ruta = grafoEstaciones.caminoOptimo("9165", "9168", 30);
+			LinkedList<String> ruta = grafoEstaciones.caminoOptimo("9165", "34252288", 30);
 			System.out.println(ruta);
+
+			ruta = grafoEstaciones.caminoOptimo("13361299", "34252288", 30);
+			System.out.println(ruta);
+
+			ruta = grafoEstaciones.caminoOptimo("13361299", "7562018", 30);
+			System.out.println(ruta);
+
+			ruta = grafoEstaciones.caminoOptimo("13361299", "7562018", -5);
+			System.out.println(ruta); // ERROR
+
+			ruta = grafoEstaciones.caminoOptimo("13361299", "1", 30);
+			System.out.println(ruta); // ERROR
 		} catch (NoExiste e) {
 			e.printStackTrace();
 		}

@@ -24,7 +24,7 @@
         "ciutat": "Cambrils",
         "estat": "lliure",
         "temps": "0",
-        "potencia": "55",
+        "potencia": "70",
         "tipus": "CCS Combo (DC)",
         "latitud": "41.085973",
         "longitud": "1.036789"
@@ -279,7 +279,7 @@
         "ciutat": "Sant Vicenç de Castellet",
         "estat": "ocupat",
         "temps": "4293",
-        "potencia": "21",
+        "potencia": "23",
         "tipus": "Type-2 (Type 2)",
         "latitud": "41.665222",
         "longitud": "1.860236"

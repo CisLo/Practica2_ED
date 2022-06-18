@@ -25,12 +25,10 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 	 * @param enchufe - enchufe a añadir
 	 * @return true - si se ha añdido; false - si no tiene las mismas coordenadas
 	 */
-	public boolean addEnchufe (Enchufe enchufe)  {
+	public void addEnchufe (Enchufe enchufe)  {
 		if (enchufe.getLongitud() == longitud && enchufe.getLatitud() == latitud){
 			listaEnchufes.add(enchufe);
-			return true;
 		}
-		return false; // No se puede añadir porque no pertenece a la misma zona
 	}
 
 	/**

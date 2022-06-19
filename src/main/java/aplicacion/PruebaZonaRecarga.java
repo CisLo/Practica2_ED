@@ -1,4 +1,4 @@
-package Juego_Pruebas;
+package aplicacion;
 
 import datos.ZonaRecarga;
 

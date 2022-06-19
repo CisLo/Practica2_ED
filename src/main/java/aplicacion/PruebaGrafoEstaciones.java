@@ -36,14 +36,38 @@ public class PruebaGrafoEstaciones {
 			System.out.println(grafoReducido.zonasDistMaxNoGarantizada("1", 250));
 			System.out.println(grafoReducido.zonasDistMaxNoGarantizada("1", 300));
 
-			System.out.println(grafoEstaciones.zonasDistMaxNoGarantizada("9165", 7000));
-			System.out.println(grafoEstaciones.zonasDistMaxNoGarantizada("9165", 100));
-			System.out.println(grafoEstaciones.zonasDistMaxNoGarantizada("9165", 40));
-			System.out.println(grafoEstaciones.zonasDistMaxNoGarantizada("9165", 39));
-			System.out.println(grafoEstaciones.zonasDistMaxNoGarantizada("9165", 20));
-			System.out.println(grafoEstaciones.zonasDistMaxNoGarantizada("36096853", 300));
+			System.out.println("\nEscogemos como origen la zona 9165 (Cambrils), las zonas que no se pueden alcanzar");
+			System.out.println("Probamos autonomia de 1000 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9165", 1000));
+			System.out.println("Probamos autonomia de   40 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9165", 40));
+			System.out.println("Probamos autonomia de   39 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9165", 39));
+			System.out.println("Probamos autonomia de   20 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9165", 20));
+
+			System.out.println("\nUsamos como origen la zona 33852430 (Almedinilla, Córdoba), es una zona no conectada a la red");
+			System.out.println("Probamos autonomia de 5000 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("33852430", 5000));
 		} catch (NoExiste e) {
 			e.printStackTrace();
+		}
+
+
+		try {
+			System.out.println("\nIntentamos usar un nodo no presente en el grafo");
+			System.out.println("ERROR:"+grafoEstaciones.zonasDistMaxNoGarantizada("1", 5000));
+		} catch (NoExiste e) {
+			System.out.println(e.getMessage());
+		}
+
+		try {
+			System.out.println("\nIntentamos usar un vertice nulo");
+			System.out.println("ERROR:"+grafoEstaciones.zonasDistMaxNoGarantizada(null, 5000));
+		} catch (NoExiste e) {
+			System.out.println(e.getMessage());
+		}
+
+		try {
+			System.out.println("\nIntentamos usar una autonomia de 0");
+			System.out.println("ERROR:"+grafoEstaciones.zonasDistMaxNoGarantizada("33852430", 0));
+		} catch (NoExiste e) {
+			System.out.println(e.getMessage());
 		}
 	}
 

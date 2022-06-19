@@ -46,13 +46,10 @@ public class GrafoEstaciones { //TODO
 			boolean conectado = false;
 			double distancia;
 
-			//TODO puedo hacer esto tambien grafoEstaciones.getClavesVertices();
-
 			for (ZonaRecarga vertice : listaZonasGrafo) {
 				if (vertice != newEstacion) {
 					distancia = vertice.distancia(newEstacion);
 					if (distancia <= 40) { // Añadimos carreteras entre estaciones a menos de 40km
-
 						try {
 							grafoEstaciones.agregarArista(vertice.getId(), newEstacion.getId(), distancia);
 						} catch (YaExisteArista e) {
@@ -230,7 +227,7 @@ public class GrafoEstaciones { //TODO
 			throw new NoExiste("Parametros no validos introducidos en funcion: distancia maxima no garantizada");
 		}
 
-		// Creamos variables y usamos una pila y una tabla hash como estructura auxiliar del recorrido en anchura
+		// Creamos variables y usamos una pila y una tabla hash como estructura auxiliar del recorrido en profundidad
 		Integer origen = Integer.parseInt(id_origen);
 		Stack<Integer> pilaZonasAdyacentes = new Stack<>();
 		TablaHashGenerica<Integer, Boolean> tablaVisitas = new TablaHashGenerica<>(grafoEstaciones.getMidaTablaVertices());
@@ -247,24 +244,32 @@ public class GrafoEstaciones { //TODO
 		while (!pilaZonasAdyacentes.isEmpty()){
 			// Extraemos una zona de la pila
 			zona = pilaZonasAdyacentes.pop();
-			tablaVisitas.insertar(zona, true);
+			tablaVisitas.insertar(zona, true); //Marcamos como visitado los nodos
 
 			for (ZonaRecarga adyacente : grafoEstaciones.adyacentes(zona)){
 				try {// Si el adyacente no esta visitado y su arista es menor que la autonomia se añade a la pila
 					if (!tablaVisitas.obtener(adyacente.getId()) && grafoEstaciones.valorArista(zona, adyacente.getId()) <= autonomia){
 						pilaZonasAdyacentes.add(adyacente.getId());
-						System.out.println(adyacente.getId()+" añadido");
 					}
 				} catch (ClaveException e) {
 					e.printStackTrace();
 				}
 			}
-
 		}
 
+		// Recorremos la lista de vertices del grafo en busca de nodos no visitados, esos seran los que no se han podido visitar
+		LinkedList<String> listaZonasNoGarantizadas = new LinkedList<>();
+		for (Integer vertice: listaZonas){
+			try {
+				if(!tablaVisitas.obtener(vertice)){
+					listaZonasNoGarantizadas.add(vertice.toString());
+				}
+			} catch (ClaveException e) {
+				e.printStackTrace();
+			}
+		}
 
-
-		return null; //TODO
+		return listaZonasNoGarantizadas; //TODO
 	}
 
 	//TODO quitar

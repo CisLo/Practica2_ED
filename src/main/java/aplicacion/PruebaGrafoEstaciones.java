@@ -33,9 +33,14 @@ public class PruebaGrafoEstaciones {
 				System.out.println(grafoReducido.pruebaAdyacentes(listaZonasReducida.get(i).getId())+"\n\n");
 			}
 
+			grafoEstaciones.zonasDistMaxNoGarantizada("9165", 20);
+
+			System.out.println(grafoEstaciones.zonasDistMaxNoGarantizada("9905556", 7000));
 		} catch (NoExiste e) {
 			e.printStackTrace();
 		}
+
+
 	}
 
 	private static void pruebaCaminoOptimo(GrafoEstaciones grafoEstaciones) {

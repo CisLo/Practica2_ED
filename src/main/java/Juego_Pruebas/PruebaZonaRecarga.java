@@ -22,6 +22,7 @@ public class PruebaZonaRecarga {
 		System.out.println("\n----------PRUEBA DISTANCIA COORDENADAS DE LAS ZONAS--------------");
 		String frase = "";
 		frase += "\nDistancia zona 1 a si mismo --> " + listaPruebas.get(0).distancia(listaPruebas.get(0));
+		frase += "\nDistancia zona 7 (Cambrils Oeste) a 8 (Cambrils Este) --> " + listaPruebas.get(6).distancia(listaPruebas.get(7));
 
 		frase += "\n\nMiramos distancia a las zonas a las que se unira en el grafo la zona 1 (Tarragona)";
 		frase += "\nDistancia zona 1 a 7 (Cambrils Oeste) --> " + listaPruebas.get(0).distancia(listaPruebas.get(6));

@@ -26,6 +26,16 @@ public class PruebaGrafoEstaciones {
 
 		// Algoritmo de zonas no alcanzables
 		System.out.println("\n----------PRUEBA ZONAS DISTANCIA MAXIMA NO GARANTIZADA--------------");
+		try {
+			grafoReducido.zonasDistMaxNoGarantizada("1", 250);
+
+			for(int i = 0; i < 8; i++){
+				System.out.println(grafoReducido.pruebaAdyacentes(listaZonasReducida.get(i).getId())+"\n\n");
+			}
+
+		} catch (NoExiste e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static void pruebaCaminoOptimo(GrafoEstaciones grafoEstaciones) {

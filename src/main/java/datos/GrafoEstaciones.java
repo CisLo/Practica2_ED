@@ -2,11 +2,14 @@ package datos;
 
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Stack;
 
 import TADGrafoGenerico.GrafoGenerico;
 import TAD_TablaHash_ListaGenerica.*;
 import excepciones.NoExiste;
 import excepciones.YaExisteArista;
+
+import javax.management.Query;
 
 public class GrafoEstaciones { //TODO
 	private GrafoGenerico <Integer, ZonaRecarga, Double> grafoEstaciones;
@@ -217,7 +220,51 @@ public class GrafoEstaciones { //TODO
 	 * @throws NoExiste no se ha podido crear la lista
 	 */
 	public LinkedList<String> zonasDistMaxNoGarantizada(String id_origen, int autonomia) throws NoExiste{
+		// Comprobamos parametros validos
+		if(id_origen == null || autonomia <= 0) {
+			throw new NoExiste("Parametros no validos introducidos en funcion: distancia maxima no garantizada");
+		}
+
+		// Creamos variables y usamos una pila y una tabla hash como estructura auxiliar del recorrido en anchura
+		Integer origen = Integer.parseInt(id_origen);
+		Stack<Integer> pilaZonasAdyacentes = new Stack<>();
+		TablaHashGenerica<Integer, Boolean> tablaVisitas = new TablaHashGenerica<>(grafoEstaciones.getMidaTablaVertices());
+
+		// Inicializamos las estructuras auxiliares
+		ListaGenerica<Integer> listaZonas = grafoEstaciones.getClavesVertices();
+		for(Integer vertice: listaZonas){
+			tablaVisitas.insertar(vertice, false);
+		}
+		pilaZonasAdyacentes.add(origen);
+
+		// Bucle de exploracion en anchura
+		Integer zona;
+		while (!pilaZonasAdyacentes.isEmpty()){
+			// Extraemos una zona de la pila
+			zona = pilaZonasAdyacentes.pop();
+			tablaVisitas.insertar(zona, true);
+
+			for (ZonaRecarga adyacente : grafoEstaciones.adyacentes(zona)){
+				try {// Si el adyacente no esta visitado y su arista es menor que la autonomia se añade a la pila
+					if (!tablaVisitas.obtener(adyacente.getId()) && grafoEstaciones.valorArista(zona, adyacente.getId()) <= autonomia){
+						pilaZonasAdyacentes.add(adyacente.getId());
+						System.out.println(adyacente.getId()+" añadido");
+					}
+				} catch (ClaveException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}
+
+
+
 		return null; //TODO
+	}
+
+	//TODO quitar
+	public LinkedList<ZonaRecarga> pruebaAdyacentes(Integer idZona) throws NoExiste {
+		return grafoEstaciones.adyacentes(idZona);
 	}
 
 	@Override

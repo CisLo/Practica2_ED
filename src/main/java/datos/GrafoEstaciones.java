@@ -14,11 +14,10 @@ public class GrafoEstaciones { //TODO
 
 	public GrafoEstaciones (LinkedList<ZonaRecarga> listaZonasRecarga){
 		grafoEstaciones = new GrafoGenerico<Integer, ZonaRecarga, Double>(listaZonasRecarga.size()*2);
-		LinkedList<ZonaRecarga> listaZonasGrafo = new LinkedList<>();
 
 		for (ZonaRecarga zonaRecarga : listaZonasRecarga) { // añadimos todas las zonas al grafo
 			try {
-				addEstacion(zonaRecarga, listaZonasGrafo);
+				grafoEstaciones.agregarVertice(zonaRecarga.getId(), zonaRecarga);
 				if (zonaRecargaInicial == null) {
 					zonaRecargaInicial = zonaRecarga; // El vertice inicial de recorridos se asigna al primer nodo del grafo
 				}
@@ -26,18 +25,16 @@ public class GrafoEstaciones { //TODO
 				e.printStackTrace(); //ERROR zona de recarga es null
 			}
 		}
+		for (ZonaRecarga zonaRecarga : listaZonasRecarga) {
+			try {
+				addCarreteras(zonaRecarga, grafoEstaciones, listaZonasRecarga);
+			} catch (NoExiste e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
-	/**
-	 * Función que añade una Zona de Recarga al grafo y lo une con todas las zonas a menos de 40 km, en caso de que no haya
-	 * ninguna estacion a 40 km lo une a la estacion más cercana
-	 * @param newEstacion - estacion que se quiere unir al grafo
-	 * @throws NoExiste - Zona de recarga pasada por parametro es nulo
-	 */
-	public void addEstacion (ZonaRecarga newEstacion, LinkedList<ZonaRecarga> listaZonasGrafo) throws NoExiste {
-		// Añadimos el vertice
-		grafoEstaciones.agregarVertice(newEstacion.getId(), newEstacion);
-
+	private void addCarreteras(ZonaRecarga newEstacion, GrafoGenerico<Integer, ZonaRecarga, Double> grafoEstaciones, LinkedList<ZonaRecarga> listaZonasGrafo) throws NoExiste{
 		if (zonaRecargaInicial != null) { // En caso de que no sea el primer nodo del grafo, añadimos aristas
 			// Recorremos la lista de vertices del grafo
 			ZonaRecarga estacionMasCercana = null;
@@ -47,12 +44,14 @@ public class GrafoEstaciones { //TODO
 			//TODO puedo hacer esto tambien grafoEstaciones.getClavesVertices();
 			try {
 				for (ZonaRecarga vertice : listaZonasGrafo) {
-					distancia = vertice.distancia(newEstacion);
-					if (distancia <= 40) { // Añadimos carreteras entre estaciones a menos de 40km
-						grafoEstaciones.agregarArista(vertice.getId(), newEstacion.getId(), distancia);
-						conectado = true;
-					} else if (estacionMasCercana == null || distancia < newEstacion.distancia(estacionMasCercana)) {
-						estacionMasCercana = vertice;
+					if (vertice != newEstacion) {
+						distancia = vertice.distancia(newEstacion);
+						if (distancia <= 40) { // Añadimos carreteras entre estaciones a menos de 40km
+							grafoEstaciones.agregarArista(vertice.getId(), newEstacion.getId(), distancia);
+							conectado = true;
+						} else if (estacionMasCercana == null || distancia < newEstacion.distancia(estacionMasCercana)) {
+							estacionMasCercana = vertice;
+						}
 					}
 				}
 
@@ -62,12 +61,9 @@ public class GrafoEstaciones { //TODO
 				}
 
 			}catch (YaExisteArista e){
-				e.printStackTrace(); //ERROR
+				// No hacer nada
 			}
 		}
-
-		// Añadimos el nuevo vertice a la lista de estaciones que pertenecen al grafo
-		listaZonasGrafo.add(newEstacion);
 	}
 
 	/**
@@ -226,7 +222,6 @@ public class GrafoEstaciones { //TODO
 	public String toString() {
 		return "GrafoEstaciones{" +
 				"grafoEstaciones=" + grafoEstaciones +
-				", zonaRecargaInicial=" + zonaRecargaInicial +
 				'}';
 	}
 }

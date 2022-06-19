@@ -42,8 +42,9 @@ public class PruebaZonaRecarga {
 		// Listamos los id del fichero
 		System.out.println("Lista de Zonas de Prueba leidas");
 		listarIdZonas(listaPruebas);
-		System.out.println("Lista Completa de Zonas leidas");
-		listarIdZonas(lista);
+		// No imprimimos la lista completa porque es muy larga
+		//System.out.println("Lista Completa de Zonas leidas");
+		//listarIdZonas(lista);
 
 
 		// Comprobamos si hay algun id repetido

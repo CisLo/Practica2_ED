@@ -12,11 +12,6 @@ public class GrafoEstaciones { //TODO
 	private GrafoGenerico <Integer, ZonaRecarga, Double> grafoEstaciones;
 	private ZonaRecarga zonaRecargaInicial; // un vertice perteneciente al grafo por el cual se comienza a hacer un recorrido
 
-	public GrafoEstaciones (int mida){
-		grafoEstaciones = new GrafoGenerico<Integer, ZonaRecarga, Double>(mida);
-		zonaRecargaInicial = null; // Inicializamos el vertice inicial de recorridos
-	}
-
 	public GrafoEstaciones (LinkedList<ZonaRecarga> listaZonasRecarga){
 		grafoEstaciones = new GrafoGenerico<Integer, ZonaRecarga, Double>(listaZonasRecarga.size()*2);
 		LinkedList<ZonaRecarga> listaZonasGrafo = new LinkedList<>();
@@ -40,8 +35,6 @@ public class GrafoEstaciones { //TODO
 	 * @throws NoExiste - Zona de recarga pasada por parametro es nulo
 	 */
 	public void addEstacion (ZonaRecarga newEstacion, LinkedList<ZonaRecarga> listaZonasGrafo) throws NoExiste {
-
-
 		// Añadimos el vertice
 		grafoEstaciones.agregarVertice(newEstacion.getId(), newEstacion);
 

@@ -21,8 +21,9 @@ public class PruebaZonaRecarga {
 	private static void pruebaDistancia(LinkedList<ZonaRecarga> listaPruebas) {
 		System.out.println("\n----------PRUEBA DISTANCIA COORDENADAS DE LAS ZONAS--------------");
 		String frase = "";
-		frase += "\nDistancia zona 0 a si mismo --> " + listaPruebas.get(0).distancia(listaPruebas.get(0));
-		frase += "\nDistancia zona 0 a 1 --> " + listaPruebas.get(0).distancia(listaPruebas.get(1));
+		frase += "\nDistancia zona 1 a si mismo --> " + listaPruebas.get(0).distancia(listaPruebas.get(0));
+		frase += "\nDistancia zona 1 a 7 --> " + listaPruebas.get(1).distancia(listaPruebas.get(7));
+		frase += "\nDistancia zona 1 a 2 --> " + listaPruebas.get(0).distancia(listaPruebas.get(1));
 		frase += "\nDistancia zona 0 a 2 --> " + listaPruebas.get(0).distancia(listaPruebas.get(2));
 		frase += "\nDistancia zona 1 a 2 --> " + listaPruebas.get(1).distancia(listaPruebas.get(2));
 		System.out.println(frase);

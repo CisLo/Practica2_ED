@@ -15,7 +15,8 @@ public class GrafoEstaciones { //TODO
 	public GrafoEstaciones (LinkedList<ZonaRecarga> listaZonasRecarga){
 		grafoEstaciones = new GrafoGenerico<Integer, ZonaRecarga, Double>(listaZonasRecarga.size()*2);
 
-		for (ZonaRecarga zonaRecarga : listaZonasRecarga) { // añadimos todas las zonas al grafo
+		// Añadimos los vertices
+		for (ZonaRecarga zonaRecarga : listaZonasRecarga) {
 			try {
 				grafoEstaciones.agregarVertice(zonaRecarga.getId(), zonaRecarga);
 				if (zonaRecargaInicial == null) {
@@ -25,6 +26,7 @@ public class GrafoEstaciones { //TODO
 				e.printStackTrace(); //ERROR zona de recarga es null
 			}
 		}
+		// Añadimos las aristas tras añadir los vertices
 		for (ZonaRecarga zonaRecarga : listaZonasRecarga) {
 			try {
 				addCarreteras(zonaRecarga, grafoEstaciones, listaZonasRecarga);

@@ -47,26 +47,31 @@ public class GrafoEstaciones { //TODO
 			double distancia;
 
 			//TODO puedo hacer esto tambien grafoEstaciones.getClavesVertices();
-			try {
-				for (ZonaRecarga vertice : listaZonasGrafo) {
-					if (vertice != newEstacion) {
-						distancia = vertice.distancia(newEstacion);
-						if (distancia <= 40) { // Añadimos carreteras entre estaciones a menos de 40km
+
+			for (ZonaRecarga vertice : listaZonasGrafo) {
+				if (vertice != newEstacion) {
+					distancia = vertice.distancia(newEstacion);
+					if (distancia <= 40) { // Añadimos carreteras entre estaciones a menos de 40km
+
+						try {
 							grafoEstaciones.agregarArista(vertice.getId(), newEstacion.getId(), distancia);
-							conectado = true;
-						} else if (estacionMasCercana == null || distancia < newEstacion.distancia(estacionMasCercana)) {
-							estacionMasCercana = vertice;
+						} catch (YaExisteArista e) {
+							//Nada
 						}
+						conectado = true;
+					} else if (estacionMasCercana == null || distancia < newEstacion.distancia(estacionMasCercana)) {
+						estacionMasCercana = vertice;
 					}
 				}
+			}
 
-				// Añadimos el más cercano si no hay ninguno a 40km
-				if (!conectado && estacionMasCercana!=null) {
+			// Añadimos el más cercano si no hay ninguno a 40km
+			if (!conectado && estacionMasCercana!=null) {
+				try {
 					grafoEstaciones.agregarArista(newEstacion.getId(), estacionMasCercana.getId(), newEstacion.distancia(estacionMasCercana));
+				} catch (YaExisteArista e) {
+					//Nada
 				}
-
-			}catch (YaExisteArista e){
-				// No hacer nada
 			}
 		}
 	}

@@ -22,10 +22,23 @@ public class PruebaZonaRecarga {
 		System.out.println("\n----------PRUEBA DISTANCIA COORDENADAS DE LAS ZONAS--------------");
 		String frase = "";
 		frase += "\nDistancia zona 1 a si mismo --> " + listaPruebas.get(0).distancia(listaPruebas.get(0));
-		frase += "\nDistancia zona 1 a 7 --> " + listaPruebas.get(1).distancia(listaPruebas.get(7));
-		frase += "\nDistancia zona 1 a 2 --> " + listaPruebas.get(0).distancia(listaPruebas.get(1));
-		frase += "\nDistancia zona 0 a 2 --> " + listaPruebas.get(0).distancia(listaPruebas.get(2));
-		frase += "\nDistancia zona 1 a 2 --> " + listaPruebas.get(1).distancia(listaPruebas.get(2));
+
+		frase += "\n\nMiramos distancia a las zonas a las que se unira en el grafo la zona 1 (Tarragona)";
+		frase += "\nDistancia zona 1 a 7 (Cambrils Oeste) --> " + listaPruebas.get(0).distancia(listaPruebas.get(6));
+		frase += "\nDistancia zona 1 a 8 (Cambrils Este) --> " + listaPruebas.get(0).distancia(listaPruebas.get(7));
+		frase += "\nDistancia zona 1 a 2 (Granollers (BCN)) --> " + listaPruebas.get(0).distancia(listaPruebas.get(1));
+
+		frase += "\n\nMiramos a que zona se unirá la zona 5 (Les Cases d'Alcanar)";
+		frase += "\nDistancia zona 5 a 7 (Cambrils Oeste)--> " + listaPruebas.get(4).distancia(listaPruebas.get(6));
+		frase += "\nDistancia zona 5 a 8 (Cambrils Este)--> " + listaPruebas.get(4).distancia(listaPruebas.get(7));
+		frase += "\nDistancia zona 5 a 1 (Tarragona)--> " + listaPruebas.get(4).distancia(listaPruebas.get(0));
+		frase += "\nDistancia zona 5 a 3 (Lleida)--> " + listaPruebas.get(1).distancia(listaPruebas.get(2));
+
+		frase += "\n\nMiramos a que zona se unirá la zona 6 (Solsona)";
+		frase += "\nDistancia zona 6 a 2 (Granollers (BCN))--> " + listaPruebas.get(5).distancia(listaPruebas.get(1));
+		frase += "\nDistancia zona 6 a 3 (Lleida)--> " + listaPruebas.get(5).distancia(listaPruebas.get(2));
+		frase += "\nDistancia zona 6 a 4 (Figueres)--> " + listaPruebas.get(5).distancia(listaPruebas.get(3));
+
 		System.out.println(frase);
 	}
 

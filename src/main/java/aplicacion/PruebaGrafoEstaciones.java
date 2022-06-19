@@ -42,6 +42,9 @@ public class PruebaGrafoEstaciones {
 			System.out.println("Probamos autonomia de   39 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9165", 39));
 			System.out.println("Probamos autonomia de   20 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9165", 20));
 
+			System.out.println("\nTomamos como origen la zona 9904800 (Móra d'Ebre)");
+			System.out.println("Probamos autonomia de 25 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9904800", 25));
+
 			System.out.println("\nUsamos como origen la zona 33852430 (Almedinilla, Córdoba), es una zona no conectada a la red");
 			System.out.println("Probamos autonomia de 5000 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("33852430", 5000));
 		} catch (NoExiste e) {

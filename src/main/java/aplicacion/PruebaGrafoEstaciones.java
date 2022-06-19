@@ -33,11 +33,15 @@ public class PruebaGrafoEstaciones {
 	private static void pruebaDistMaxNoGarantizada(LinkedList<ZonaRecarga> listaZonasReducida, GrafoEstaciones grafoEstaciones, GrafoEstaciones grafoReducido) {
 		System.out.println("\n----------PRUEBA ZONAS DISTANCIA MAXIMA NO GARANTIZADA--------------");
 		try {
-			grafoReducido.zonasDistMaxNoGarantizada("1", 250);
-
+			System.out.println(grafoReducido.zonasDistMaxNoGarantizada("1", 250));
 			System.out.println(grafoReducido.zonasDistMaxNoGarantizada("1", 300));
 
 			System.out.println(grafoEstaciones.zonasDistMaxNoGarantizada("9165", 7000));
+			System.out.println(grafoEstaciones.zonasDistMaxNoGarantizada("9165", 100));
+			System.out.println(grafoEstaciones.zonasDistMaxNoGarantizada("9165", 40));
+			System.out.println(grafoEstaciones.zonasDistMaxNoGarantizada("9165", 39));
+			System.out.println(grafoEstaciones.zonasDistMaxNoGarantizada("9165", 20));
+			System.out.println(grafoEstaciones.zonasDistMaxNoGarantizada("36096853", 300));
 		} catch (NoExiste e) {
 			e.printStackTrace();
 		}
@@ -117,6 +121,4 @@ public class PruebaGrafoEstaciones {
 		}
 
 	}
-
-
 }

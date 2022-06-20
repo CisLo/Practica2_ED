@@ -23,11 +23,8 @@ public class PruebaGrafoEstaciones {
 		// Prueba de camino optimo
 		pruebaCaminoOptimo(grafoEstaciones);
 
-
 		// Algoritmo de zonas no alcanzables
 		pruebaDistMaxNoGarantizada(listaZonasReducida, grafoEstaciones, grafoReducido);
-
-
 	}
 
 	private static void pruebaDistMaxNoGarantizada(LinkedList<ZonaRecarga> listaZonasReducida, GrafoEstaciones grafoEstaciones, GrafoEstaciones grafoReducido) {
@@ -37,10 +34,10 @@ public class PruebaGrafoEstaciones {
 			System.out.println(grafoReducido.zonasDistMaxNoGarantizada("1", 300));
 
 			System.out.println("\nEscogemos como origen la zona 9165 (Cambrils), las zonas que no se pueden alcanzar");
-			System.out.println("Probamos autonomia de 1000 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9165", 1000));
-			System.out.println("Probamos autonomia de   40 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9165", 40));
-			System.out.println("Probamos autonomia de   39 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9165", 39));
-			System.out.println("Probamos autonomia de   20 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9165", 20));
+			System.out.println("Probamos autonomia de 10000 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9165", 10000));
+			System.out.println("Probamos autonomia de    40 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9165", 40));
+			System.out.println("Probamos autonomia de    39 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9165", 39));
+			System.out.println("Probamos autonomia de    20 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9165", 20));
 
 			System.out.println("\nTomamos como origen la zona 9904800 (Móra d'Ebre)");
 			System.out.println("Probamos autonomia de 25 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9904800", 25));
@@ -99,7 +96,7 @@ public class PruebaGrafoEstaciones {
 			System.out.println("-->"+ruta);
 
 			// Probamos una ruta entre dos zonas muy lejanas con autonomia baja 30km
-			System.out.println("\nProbamos una ruta entre dos zonas muy lejanas y con autonomia baja (13361299-->7562018) 30km");
+			System.out.println("\nProbamos una ruta entre dos zonas muy lejanas y con autonomia media (13361299-->7562018) 30km");
 			ruta = grafoEstaciones.caminoOptimo("13361299", "7562018", 30);
 			System.out.println("-->"+ruta);
 		} catch (NoExiste e) {

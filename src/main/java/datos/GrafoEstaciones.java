@@ -11,7 +11,7 @@ import excepciones.YaExisteArista;
 
 import javax.management.Query;
 
-public class GrafoEstaciones { //TODO
+public class GrafoEstaciones {
 	private GrafoGenerico <Integer, ZonaRecarga, Double> grafoEstaciones;
 	private ZonaRecarga zonaRecargaInicial; // un vertice perteneciente al grafo por el cual se comienza a hacer un recorrido
 
@@ -128,7 +128,7 @@ public class GrafoEstaciones { //TODO
 				for (ZonaRecarga zona:grafoEstaciones.adyacentes(vertice)) {
 					Double pesoActual = tablaCostes.obtener(zona.getId());
 					Double costeArista = grafoEstaciones.valorArista(vertice, zona.getId());
-					if (costeArista <= autonomia) { // Descartamos las aristas por las que no puede pasar el coche
+					if (costeArista <= autonomia) { // Descartamos las aristas por las que no puede pasar el coche TODO modifciar esto?
 						Double pesoNuevo = tablaCostes.obtener(vertice) + costeArista;
 
 						if (pesoActual == null || pesoActual > pesoNuevo) { // Si mejora el coste, actualizamos el coste y predecesor
@@ -138,7 +138,7 @@ public class GrafoEstaciones { //TODO
 					}
 				}
 				// Elegimos el siguiente vertice, y si
-				vertice = elegirVerticeMinimoCoste(listaZonas, tablaVisitas, tablaCostes);
+				vertice = elegirVerticeMinimoCoste(listaZonas, tablaVisitas, tablaCostes); //TODO modificar esto?
 			}
 		} catch (ClaveException e) {
 			e.printStackTrace(); // Error
@@ -177,10 +177,21 @@ public class GrafoEstaciones { //TODO
 				idZona = listaZonas.obtener(index);
 				if (!tablaVisitas.obtener(idZona)) { // Vertice no visitado
 					coste = tablaCostes.obtener(idZona);
-					if(verticeElegido == null || coste != null && (costeVerticeElegido==null || coste < costeVerticeElegido)){ // Vertice con menor coste
-						verticeElegido = idZona; //Entonces se elige el vertice
+					if (verticeElegido == null){
+
+					} else if()
+					if(verticeElegido == null || coste != null && (costeVerticeElegido==null || coste <= costeVerticeElegido)){ // Vertice con menor coste
+						if (Objects.equals(coste, costeVerticeElegido)){ // Si ambos tienen el mismo coste se escoje el vertice con mayor potencia
+							double potenciaZonaActual = grafoEstaciones.valorVertice(idZona).getEnchufeMasPotencia().getPotencia();
+							double potenciaZonaElegida = grafoEstaciones.valorVertice(verticeElegido).getEnchufeMasPotencia().getPotencia();
+							if (potenciaZonaActual > potenciaZonaElegida){
+								verticeElegido = idZona; //Entonces se elige el vertice
+							}
+							// Si no entonces nos quedamos con la zona que ya estaba elegida
+						}
 						costeVerticeElegido = tablaCostes.obtener(verticeElegido);
 					}
+
 				}
 				index++;
 			}
@@ -269,12 +280,7 @@ public class GrafoEstaciones { //TODO
 			}
 		}
 
-		return listaZonasNoGarantizadas; //TODO
-	}
-
-	//TODO quitar
-	public LinkedList<ZonaRecarga> pruebaAdyacentes(Integer idZona) throws NoExiste {
-		return grafoEstaciones.adyacentes(idZona);
+		return listaZonasNoGarantizadas;
 	}
 
 	@Override

@@ -7,6 +7,9 @@ import java.util.Scanner;
 
 import com.google.gson.Gson;
 
+/**
+ * Clase que es una zona de recarga que contiene todos los enchufes que tienen las mismas coordenadas
+ */
 public class ZonaRecarga implements Comparable<ZonaRecarga> {
 	private final int id;
 	private LinkedList<Enchufe> listaEnchufes;
@@ -157,7 +160,7 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 	}
 
 	@Override
-	public int compareTo(ZonaRecarga zona) { //TODO
+	public int compareTo(ZonaRecarga zona) {
 		return this.id - zona.id; // negativo si este objeto es menor, 0 si son iguales, positivo si es mayor a la zona pasasado por parametro
 	}
 

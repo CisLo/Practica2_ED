@@ -10,6 +10,12 @@ import excepciones.YaExisteArista;
 
 import java.util.LinkedList;
 
+/**
+ * Clase Grafo Generico, implementa TADGrafoGenerico, Proporciona una implementación para crear un grafo etiquetado y no dirigido.
+ * @param <K> Tipo de Objeto que será la clave o identificador del vertice. Debe implementar Comparable
+ * @param <V> Tipo de Objeto que será el valor del vertice
+ * @param <A> Tipo de Objeto que será el valor o etiqueta de la arista
+ */
 public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGenerico<K, V, A> {
 
 	TablaHashGenerica<K, Vertice<K, V, A>> tablaVertices;
@@ -27,12 +33,13 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 	 * @param vertice - dato que se quiere añadir al grafo
 	 * @throws NoExiste - El vértice pasado por parámetro es nulo
 	 */
-	public void agregarVertice(K clave, V vertice) throws NoExiste{ // TODO la clave no es el vertice
-		if (vertice == null || clave == null){
+	public void agregarVertice(K clave, V vertice) throws NoExiste{
+		if (vertice == null || clave == null){ // Se lanza excepcion si los parámetros son nulos
 			throw new NoExiste("El vértice pasado por parámetro es nulo");
 		}
 		tablaVertices.insertar(clave, new Vertice<K, V, A>(clave, vertice));
 	}
+
 
 
 	public void agregarArista(K vertice1, K vertice2, A arista) throws NoExiste, YaExisteArista {
@@ -56,10 +63,12 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 			Arista<K, V, A> nodoArista = new Arista<K, V, A>(arista);
 			nodoArista.setReferVerticeHorizontal(nodoMenor); // Lo unimos al vertice menor
 			nodoArista.setReferVerticeVertical(nodoMayor); // Lo unimos al vertice mayor
-			//TODO unir ordenado??
-			// esto es añadirlo al principio de ambos nodos de forma desordenada
+
+			// Apuntamos a las siguientes aristas
 			nodoArista.setNodoHorizontal(nodoMenor.getPunteroAristaHorizontal());
 			nodoArista.setNodoVertical(nodoMayor.getPunteroAristaVertical());
+
+			// Modificamos los punteros de los nodos vertice
 			nodoMenor.setNodoHorizontal(nodoArista);
 			nodoMayor.setNodoVertical(nodoArista);
 
@@ -71,7 +80,7 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 
 	public boolean existeArista(K vertice1, K vertice2) {
 		boolean existe = true;
-		try{
+		try{ // Buscamos la arista en la multilista y si no la encuentra es que no existe
 			buscarArista(vertice1, vertice2);
 		} catch (NoExiste e) {
 			existe = false;
@@ -81,14 +90,14 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 
 
 	public A valorArista(K vertice1, K vertice2) throws NoExiste {
-		return buscarArista(vertice1, vertice2).getDatos();
+		return buscarArista(vertice1, vertice2).getDatos(); // Buscamos la arista en la multilista y devuelve el valor
 	}
 
 	private Arista<K, V, A> buscarArista(K vertice1, K vertice2) throws NoExiste{
 		boolean existe = false;
 		Arista<K, V, A> aristaHorizontal = null;
 
-		try {
+		try { // Obtenemos los vertices
 			Vertice<K, V, A> nodoMenor = tablaVertices.obtener(vertice1);
 			Vertice<K, V, A> nodoMayor = tablaVertices.obtener(vertice2);
 
@@ -103,9 +112,10 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 				aristaHorizontal = nodoMenor.getPunteroAristaHorizontal();
 				existe = aristaHorizontal.getReferVerticeVertical().compareTo(nodoMayor) == 0;
 
+				// Se busca en la lista de aristas horizontales el nodo, si existe se vuelve true se retorna se ha encontrado si no se lanza excepcion
 				while (!existe && aristaHorizontal.hasNextHorizontal()){
-					aristaHorizontal = aristaHorizontal.getPunteroAristaHorizontal();
-					existe = aristaHorizontal.getReferVerticeVertical().compareTo(nodoMayor) == 0;
+					aristaHorizontal = aristaHorizontal.getPunteroAristaHorizontal(); // Guardamos la siguiente arista
+					existe = aristaHorizontal.getReferVerticeVertical().compareTo(nodoMayor) == 0; //Miramos si es la arista que buscamos
 				}
 			}
 
@@ -123,9 +133,10 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 	public LinkedList<V> adyacentes(K vertice) throws NoExiste {
 		LinkedList<V> listaVertices = new LinkedList<>();
 
-		try {
+		try {// Obtenemos el vertice
 			Vertice<K, V, A> nodoInicio = tablaVertices.obtener(vertice);
 
+			// Guardamos las primeras aristas del vertice, de las cuales partiremos para hacer el recorrido de ambas listas
 			Arista<K, V, A> aristaHorizontal = nodoInicio.getPunteroAristaHorizontal();
 			Arista<K, V, A> aristaVertical = nodoInicio.getPunteroAristaVertical();
 
@@ -148,11 +159,18 @@ public class GrafoGenerico<K extends Comparable<K>, V, A> implements TADGrafoGen
 		return listaVertices;
 	}
 
+	/**
+	 * Obtener tamaño tabla hash de vertices
+	 * @return la longitud de la tabla hash de vertices del grafo
+	 */
 	public int getMidaTablaVertices(){
 		return tablaVertices.midaTabla();
 	}
 
-	//TODO encapsulación?
+	/**
+	 * Obtener Lista de Claves Vertices
+	 * @return una lista con los identificadores de los vertices del grafo
+	 */
 	public ListaGenerica<K> getClavesVertices(){
 		return tablaVertices.obtenerClaves();
 	}

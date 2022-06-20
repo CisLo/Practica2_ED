@@ -9,8 +9,8 @@ public class Arista<K extends Comparable<K>, V, A> {
 	private Arista<K, V, A> punteroAristaVertical;
 
 	// Referencias a los vertices que unen
-	private Vertice<K, V, A> referVerticeHorizontal;
-	private Vertice<K, V, A> referVerticeVertical;
+	private Vertice<K, V, A> referVerticeHorizontal; // Es el vertice menor
+	private Vertice<K, V, A> referVerticeVertical; // Es el vertice mayor
 
 
 	// ************ ↓↓↓ MÉTODOS ↓↓↓ ***********
@@ -87,8 +87,17 @@ public class Arista<K extends Comparable<K>, V, A> {
 		return dato;
 	}
 
-	public V getReferMenor(){return referVerticeHorizontal.getDatos();}
-	public V getReferMayor(){return referVerticeVertical.getDatos();}
+	/**
+	 * Getter
+	 * @return los datos del vertice menor que une la arista
+	 */
+	public V getValorReferMenor(){return referVerticeHorizontal.getDatos();}
+
+	/**
+	 * Getter
+	 * @return los datos del vertice mayor que une la arista
+	 */
+	public V getValorReferMayor(){return referVerticeVertical.getDatos();}
 
 	/**
 	 * Getter
@@ -109,10 +118,10 @@ public class Arista<K extends Comparable<K>, V, A> {
 	@Override
 	public String toString() {
 		// Imprimimos el objeto y cuál es la arista siguiente
-		V referHorizMenor = punteroAristaHorizontal == null? null: punteroAristaHorizontal.getReferMenor();
-		V referHorizMayor = punteroAristaHorizontal == null? null: punteroAristaHorizontal.getReferMayor();
-		V referVertMenor = punteroAristaVertical == null? null: punteroAristaVertical.getReferMenor();
-		V referVertMayor = punteroAristaVertical == null? null: punteroAristaVertical.getReferMayor();
+		V referHorizMenor = punteroAristaHorizontal == null? null: punteroAristaHorizontal.getValorReferMenor();
+		V referHorizMayor = punteroAristaHorizontal == null? null: punteroAristaHorizontal.getValorReferMayor();
+		V referVertMenor = punteroAristaVertical == null? null: punteroAristaVertical.getValorReferMenor();
+		V referVertMayor = punteroAristaVertical == null? null: punteroAristaVertical.getValorReferMayor();
 
 		return "Arista{" +
 				"dato=" + dato +

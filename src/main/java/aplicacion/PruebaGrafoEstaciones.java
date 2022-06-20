@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.util.LinkedList;
 
 public class PruebaGrafoEstaciones {
-	public static void main(String[] args) throws FileNotFoundException { //TODO controlar excepcion
+	public static void main(String[] args) throws FileNotFoundException {
 		// Cargamos los datos de JSON al grafo
 		LinkedList<ZonaRecarga> listaZonas = ZonaRecarga.leerJson("src/main/resources/icaen.json");
 		LinkedList<ZonaRecarga> listaZonasReducida = ZonaRecarga.leerJson("src/main/resources/pruebas.json");

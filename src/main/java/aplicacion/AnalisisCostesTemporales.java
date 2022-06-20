@@ -5,6 +5,7 @@ import datos.ZonaRecarga;
 import excepciones.NoExiste;
 
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,9 +26,21 @@ public class AnalisisCostesTemporales {
 		Arrays.fill(contador, 0);
 
 		double[] distancias = new double[5];
+		int[] nodos = new int[5];
 		try {
 			distancias[0] = grafoEstaciones.caminoOptimoDistancia("9794082", "7562169", 20);
-			System.out.println(distancias[0]);
+			distancias[1] = grafoEstaciones.caminoOptimoDistancia("9794082", "35349720", 20);
+			distancias[2] = grafoEstaciones.caminoOptimoDistancia("35349720", "7562243", 20);
+			distancias[3] = grafoEstaciones.caminoOptimoDistancia("35349720", "29786231", 20);
+			distancias[4] = grafoEstaciones.caminoOptimoDistancia("7562086", "7562247", 20);
+			nodos[0] = grafoEstaciones.caminoOptimo("9794082", "7562169", 20).size();
+			nodos[1] = grafoEstaciones.caminoOptimo("9794082", "35349720", 20).size();
+			nodos[2] = grafoEstaciones.caminoOptimo("35349720", "7562243", 20).size();
+			nodos[3] = grafoEstaciones.caminoOptimo("35349720", "29786231", 20).size();
+			nodos[4] = grafoEstaciones.caminoOptimo("7562086", "7562247", 20).size();
+			System.out.println(Arrays.toString(distancias));
+			System.out.println(Arrays.toString(nodos));
+
 		} catch (NoExiste e) {
 			e.printStackTrace();
 		}

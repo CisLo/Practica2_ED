@@ -82,6 +82,16 @@ public class GrafoEstaciones {
 	 * @exception NoExiste no se ha podido crear la lista de camino optimo
 	 */
 	public LinkedList<String> caminoOptimo(String id_origen, String id_destino, int autonomia) throws NoExiste{
+		return dijkstraCaminoOptimo(id_origen, id_destino, autonomia, null);
+	}
+
+	public double caminoOptimoDistancia (String id_origen, String id_destino, int autonomia) throws NoExiste{
+		Numero distanciaTotal = new Numero();
+		dijkstraCaminoOptimo(id_origen,id_destino,autonomia,distanciaTotal);
+		return distanciaTotal.getDato();
+	}
+
+	private LinkedList<String> dijkstraCaminoOptimo(String id_origen, String id_destino, int autonomia, Numero distanciaTotal) throws NoExiste {
 		// Comprobamos parametros validos
 		if(id_origen == null || id_destino == null || autonomia <= 0) {
 			throw new NoExiste("Parametros no validos introducidos en funcion: camino optimo");
@@ -149,12 +159,16 @@ public class GrafoEstaciones {
 
 		// Generamos la ruta
 		LinkedList<String> ruta = new LinkedList<>();
+
 		try { // Obtenemos el nombre del enchufe con mayor potencia de la zona de recarga
+			if (distanciaTotal != null){ // Guardamos la distancia total
+				distanciaTotal.setDato(tablaCostes.obtener(destino)); // Guardamos el resultado de distancia total
+			}
+
 			ruta.add(grafoEstaciones.valorVertice(destino).getEnchufeMasPotencia().getNom());
 			while (!Objects.equals(destino, origen)){ //Comparamos valores
 				destino = tablaPredecesores.obtener(destino);
 				ruta.add(0, grafoEstaciones.valorVertice(destino).getEnchufeMasPotencia().getNom());
-
 			}
 		} catch (ClaveException e) {
 			e.printStackTrace();

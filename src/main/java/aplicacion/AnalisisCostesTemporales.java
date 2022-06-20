@@ -11,7 +11,7 @@ import java.util.LinkedList;
 public class AnalisisCostesTemporales {
 	static long inicial;
 	static long[] contador = new long[5];
-	static final int AUTONOMIA = 18; // MODIFICAR ESTE VALOR
+	static final int AUTONOMIA = 40; // MODIFICAR ESTE VALOR
 
 	public static void main(String[] args) throws FileNotFoundException {
 

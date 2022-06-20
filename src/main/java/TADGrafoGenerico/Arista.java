@@ -2,7 +2,7 @@ package TADGrafoGenerico;
 
 public class Arista<K extends Comparable<K>, V, A> {
 
-	private A dato;
+	private final A dato;
 
 	// Punteros a las siguientes aristas del Vertice
 	private Arista<K, V, A> punteroAristaHorizontal;

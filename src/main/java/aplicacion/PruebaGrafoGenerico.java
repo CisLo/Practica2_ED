@@ -8,7 +8,9 @@ public class PruebaGrafoGenerico {
 	public static void main(String[] args) {
 
 		// Probamos constructor
+		System.out.println("Probamos constructor");
 		GrafoGenerico<String, String, Integer> grafo = new GrafoGenerico<String, String, Integer>(6);
+		System.out.println(grafo);
 
 		// Probamos Inserción Vértice
 		pruebaInsercionVertice();

@@ -24,10 +24,10 @@ public class PruebaGrafoEstaciones {
 		pruebaCaminoOptimo(grafoEstaciones);
 
 		// Algoritmo de zonas no alcanzables
-		pruebaDistMaxNoGarantizada(listaZonasReducida, grafoEstaciones, grafoReducido);
+		pruebaDistMaxNoGarantizada(grafoEstaciones, grafoReducido);
 	}
 
-	private static void pruebaDistMaxNoGarantizada(LinkedList<ZonaRecarga> listaZonasReducida, GrafoEstaciones grafoEstaciones, GrafoEstaciones grafoReducido) {
+	private static void pruebaDistMaxNoGarantizada(GrafoEstaciones grafoEstaciones, GrafoEstaciones grafoReducido) {
 		System.out.println("\n----------PRUEBA ZONAS DISTANCIA MAXIMA NO GARANTIZADA--------------");
 		try {
 			System.out.println("En el grafo reducido escogemos el nodo 1 (Tarragona) y miramos a que zonas no se puede acceder con una autonomia de 300km");
@@ -90,12 +90,12 @@ public class PruebaGrafoEstaciones {
 			ruta = grafoEstaciones.caminoOptimo("9165", "34252288", 50);
 			System.out.println("-->"+ruta);
 
-			// Probamos una ruta entre dos zonas muy lejanas con autonomia alta 150km
+			// Probamos una ruta entre dos zonas muy lejanas con autonomia alta 150 km
 			System.out.println("\nProbamos una ruta entre dos zonas muy lejanas y con autonomia alta (13361299-->34252288) 150km");
 			ruta = grafoEstaciones.caminoOptimo("13361299", "7562018", 150);
 			System.out.println("-->"+ruta);
 
-			// Probamos una ruta entre dos zonas muy lejanas con autonomia baja 30km
+			// Probamos una ruta entre dos zonas muy lejanas con autonomia baja 30 km
 			System.out.println("\nProbamos una ruta entre dos zonas muy lejanas y con autonomia media (13361299-->7562018) 30km");
 			ruta = grafoEstaciones.caminoOptimo("13361299", "7562018", 30);
 			System.out.println("-->"+ruta);
@@ -106,7 +106,7 @@ public class PruebaGrafoEstaciones {
 		try {// Probamos una ruta pasando como parametro una autonomia no valida
 			System.out.println("\nProbamos una ruta pasando como parametro una autonomia no valida");
 			ruta = grafoEstaciones.caminoOptimo("13361299", "7562018", -5);
-			System.out.println("ERROR"); // ERROR
+			System.out.println("ERROR" + ruta); // ERROR
 		} catch (NoExiste e) {
 			System.out.println(e.getMessage());
 		}
@@ -114,7 +114,7 @@ public class PruebaGrafoEstaciones {
 		try {// Probamos una ruta pasando como parametro una zona de destino no presente en el grafo
 			System.out.println("\nProbamos una ruta pasando como parametro una zona de destino no presente en el grafo (9165->1)");
 			ruta = grafoEstaciones.caminoOptimo("9165", "1", 30);
-			System.out.println("ERROR"); // ERROR
+			System.out.println("ERROR" + ruta); // ERROR
 		} catch (NoExiste e) {
 			System.out.println(e.getMessage());
 		}
@@ -122,7 +122,7 @@ public class PruebaGrafoEstaciones {
 		try {// Probamos una ruta pasando como parametro una zona de destino nulo
 			System.out.println("\nProbamos una ruta pasando como parametro una zona de destino nulo");
 			ruta = grafoEstaciones.caminoOptimo(null, "13361299", 30);
-			System.out.println("ERROR"); // ERROR
+			System.out.println("ERROR" + ruta); // ERROR
 		} catch (NoExiste e) {
 			System.out.println(e.getMessage());
 		}
@@ -139,7 +139,7 @@ public class PruebaGrafoEstaciones {
 		try {
 			System.out.println("\nProbamos una ruta entre dos zonas distantes y con autonomia muy baja (13361299-->34252288) 10km");
 			ruta = grafoEstaciones.caminoOptimo("13361299", "34252288", 10);
-			System.out.println("ERROR");
+			System.out.println("ERROR" + ruta);
 		} catch (NoExiste e) {
 			System.out.println(e.getMessage());
 		}

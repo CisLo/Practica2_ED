@@ -12,12 +12,12 @@ import com.google.gson.Gson;
  */
 public class ZonaRecarga implements Comparable<ZonaRecarga> {
 	private final int id;
-	private LinkedList<Enchufe> listaEnchufes;
+	private final LinkedList<Enchufe> listaEnchufes;
 	private final double latitud, longitud;
 
 	public ZonaRecarga (Enchufe enchufe){
 		this.id = enchufe.getId();
-		listaEnchufes = new LinkedList<Enchufe>();
+		listaEnchufes = new LinkedList<>();
 		listaEnchufes.add(enchufe);
 		this.latitud = enchufe.getLatitud();
 		this.longitud = enchufe.getLongitud();
@@ -26,7 +26,6 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 	/**
 	 * Función que añade un enchufe a la zona de recarga, tiene que tener las mismas coordenadas
 	 * @param enchufe - enchufe a añadir
-	 * @return true - si se ha añdido; false - si no tiene las mismas coordenadas
 	 */
 	public void addEnchufe (Enchufe enchufe)  {
 		if (enchufe.getLongitud() == longitud && enchufe.getLatitud() == latitud){
@@ -74,7 +73,7 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 	 */
 	public static LinkedList<ZonaRecarga> leerJson(String path) throws FileNotFoundException {
 		LinkedList<ZonaRecarga> listaZonas = new LinkedList<>();
-		ZonaRecarga zona = null;
+		ZonaRecarga zona;
 		Enchufe enchufe;
 		Scanner reader = new Scanner(new File(path));
 		int index;

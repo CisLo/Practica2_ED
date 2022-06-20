@@ -52,7 +52,7 @@ public class PruebaZonaRecarga {
 		System.out.println(frase);
 	}
 
-	private static void pruebaJSON(LinkedList<ZonaRecarga> lista,LinkedList<ZonaRecarga> listaPruebas) throws FileNotFoundException {
+	private static void pruebaJSON(LinkedList<ZonaRecarga> lista,LinkedList<ZonaRecarga> listaPruebas) {
 		System.out.println("\n----------PRUEBA LEER JSON--------------");
 		// Listamos los id del fichero
 		System.out.println("Lista de Zonas de Prueba leidas");

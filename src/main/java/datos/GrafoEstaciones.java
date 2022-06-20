@@ -9,10 +9,9 @@ import TAD_TablaHash_ListaGenerica.*;
 import excepciones.NoExiste;
 import excepciones.YaExisteArista;
 
-import javax.management.Query;
 
 public class GrafoEstaciones {
-	private GrafoGenerico <Integer, ZonaRecarga, Double> grafoEstaciones;
+	private final GrafoGenerico <Integer, ZonaRecarga, Double> grafoEstaciones;
 	private ZonaRecarga zonaRecargaInicial; // un vertice perteneciente al grafo por el cual se comienza a hacer un recorrido
 
 	public GrafoEstaciones (LinkedList<ZonaRecarga> listaZonasRecarga){
@@ -88,7 +87,6 @@ public class GrafoEstaciones {
 		}
 
 		// Obtenemos los vertices del grafo
-		Double peso;
 		Integer destino = Integer.parseInt(id_destino);
 		Integer origen = Integer.parseInt(id_origen);
 		ListaGenerica<Integer> listaZonas = grafoEstaciones.getClavesVertices(); //Lista de las claves
@@ -118,7 +116,7 @@ public class GrafoEstaciones {
 		Integer vertice = origen;
 		tablaCostes.insertar(vertice, 0.0); // Coste de la arista inicial es 0
 
-
+		//TODO usar cola de prioridad auxiliar?
 		try{ // Bucle Dijkstra
 			while(!destino.equals(vertice) && !isVisitadosTodos(listaZonas, tablaVisitas)) {
 				// Lo marcamos como visitados
@@ -128,7 +126,7 @@ public class GrafoEstaciones {
 				for (ZonaRecarga zona:grafoEstaciones.adyacentes(vertice)) {
 					Double pesoActual = tablaCostes.obtener(zona.getId());
 					Double costeArista = grafoEstaciones.valorArista(vertice, zona.getId());
-					if (costeArista <= autonomia) { // Descartamos las aristas por las que no puede pasar el coche TODO modifciar esto?
+					if (costeArista <= autonomia) { // Descartamos las aristas por las que no puede pasar el coche
 						Double pesoNuevo = tablaCostes.obtener(vertice) + costeArista;
 
 						if (pesoActual == null || pesoActual > pesoNuevo) { // Si mejora el coste, actualizamos el coste y predecesor
@@ -138,7 +136,7 @@ public class GrafoEstaciones {
 					}
 				}
 				// Elegimos el siguiente vertice, y si
-				vertice = elegirVerticeMinimoCoste(listaZonas, tablaVisitas, tablaCostes); //TODO modificar esto?
+				vertice = elegirVerticeMinimoCoste(listaZonas, tablaVisitas, tablaCostes);
 			}
 		} catch (ClaveException e) {
 			e.printStackTrace(); // Error

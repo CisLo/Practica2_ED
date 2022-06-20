@@ -30,8 +30,8 @@ public class PruebaGrafoEstaciones {
 	private static void pruebaDistMaxNoGarantizada(LinkedList<ZonaRecarga> listaZonasReducida, GrafoEstaciones grafoEstaciones, GrafoEstaciones grafoReducido) {
 		System.out.println("\n----------PRUEBA ZONAS DISTANCIA MAXIMA NO GARANTIZADA--------------");
 		try {
-			System.out.println(grafoReducido.zonasDistMaxNoGarantizada("1", 250));
-			System.out.println(grafoReducido.zonasDistMaxNoGarantizada("1", 300));
+			System.out.println("En el grafo reducido escogemos el nodo 1 (Tarragona) y miramos a que zonas no se puede acceder con una autonomia de 300km");
+			System.out.println(grafoReducido.zonasDistMaxNoGarantizada("1", 300) + "son zonas que no estan conectadas al grafo");
 
 			System.out.println("\nEscogemos como origen la zona 9165 (Cambrils), las zonas que no se pueden alcanzar");
 			System.out.println("Probamos autonomia de 10000 km:"+grafoEstaciones.zonasDistMaxNoGarantizada("9165", 10000));

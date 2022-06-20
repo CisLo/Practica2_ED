@@ -177,21 +177,18 @@ public class GrafoEstaciones {
 				idZona = listaZonas.obtener(index);
 				if (!tablaVisitas.obtener(idZona)) { // Vertice no visitado
 					coste = tablaCostes.obtener(idZona);
-					if (verticeElegido == null){
-
-					} else if()
-					if(verticeElegido == null || coste != null && (costeVerticeElegido==null || coste <= costeVerticeElegido)){ // Vertice con menor coste
-						if (Objects.equals(coste, costeVerticeElegido)){ // Si ambos tienen el mismo coste se escoje el vertice con mayor potencia
-							double potenciaZonaActual = grafoEstaciones.valorVertice(idZona).getEnchufeMasPotencia().getPotencia();
-							double potenciaZonaElegida = grafoEstaciones.valorVertice(verticeElegido).getEnchufeMasPotencia().getPotencia();
-							if (potenciaZonaActual > potenciaZonaElegida){
-								verticeElegido = idZona; //Entonces se elige el vertice
-							}
-							// Si no entonces nos quedamos con la zona que ya estaba elegida
+					if (verticeElegido == null || coste != null && (costeVerticeElegido==null || coste < costeVerticeElegido)){
+						verticeElegido = idZona; //Entonces se elige el vertice
+					}  else if (coste != null && coste.equals(costeVerticeElegido)){
+						 // Si ambos tienen el mismo coste se escoje el vertice con mayor potencia
+						double potenciaZonaActual = grafoEstaciones.valorVertice(idZona).getEnchufeMasPotencia().getPotencia();
+						double potenciaZonaElegida = grafoEstaciones.valorVertice(verticeElegido).getEnchufeMasPotencia().getPotencia();
+						if (potenciaZonaActual > potenciaZonaElegida){
+							verticeElegido = idZona; //Entonces se elige el vertice
 						}
-						costeVerticeElegido = tablaCostes.obtener(verticeElegido);
+						// Si no entonces nos quedamos con la zona que ya estaba elegida
 					}
-
+					costeVerticeElegido = tablaCostes.obtener(verticeElegido);
 				}
 				index++;
 			}

@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Costes Temporales" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="aplicacion.AnalisisCostesTemporales" />
+    <module name="Practica2_ED" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

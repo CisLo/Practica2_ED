@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="GrafoEstaciones" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="aplicacion.PruebaGrafoEstaciones" />
+    <module name="Practica2_ED" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

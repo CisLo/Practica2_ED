@@ -38,7 +38,7 @@ public class AnalisisCostesTemporales {
 		}
 
 		for(int i = 0; i < contador.length; i++){
-			System.out.println("Ruta " + i + ": tiene " + nodos[i] + " estaciones-> "+ contador[i]/100.0);
+			System.out.println("Ruta " + (i+1) + ": tiene " + nodos[i] + " estaciones-> "+ contador[i]/100.0);
 		}
 
 	}

@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Grafo Generico" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="aplicacion.PruebaGrafoGenerico" />
+    <module name="Practica2_ED" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

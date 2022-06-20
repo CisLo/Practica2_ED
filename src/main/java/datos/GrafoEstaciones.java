@@ -6,10 +6,11 @@ import java.util.Stack;
 
 import TADGrafoGenerico.GrafoGenerico;
 import TAD_TablaHash_ListaGenerica.*;
-import excepciones.NoExiste;
-import excepciones.YaExisteArista;
+import excepciones.*;
 
-
+/**
+ * Clase que contiene una instancia del GrafoGenerico para guardar las estaciones de recarga. Contiene los algoritmos camino optimo y zonas no garantizadas
+ */
 public class GrafoEstaciones {
 	private final GrafoGenerico <Integer, ZonaRecarga, Double> grafoEstaciones;
 	private ZonaRecarga zonaRecargaInicial; // un vertice perteneciente al grafo por el cual se comienza a hacer un recorrido
@@ -135,7 +136,7 @@ public class GrafoEstaciones {
 						}
 					}
 				}
-				// Elegimos el siguiente vertice, y si
+				// Elegimos el siguiente vertice
 				vertice = elegirVerticeMinimoCoste(listaZonas, tablaVisitas, tablaCostes);
 			}
 		} catch (ClaveException e) {
@@ -148,8 +149,6 @@ public class GrafoEstaciones {
 
 		// Generamos la ruta
 		LinkedList<String> ruta = new LinkedList<>();
-
-
 		try { // Obtenemos el nombre del enchufe con mayor potencia de la zona de recarga
 			ruta.add(grafoEstaciones.valorVertice(destino).getEnchufeMasPotencia().getNom());
 			while (!Objects.equals(destino, origen)){ //Comparamos valores
@@ -170,13 +169,18 @@ public class GrafoEstaciones {
 		Integer idZona;
 		Integer verticeElegido = null;
 		Double coste, costeVerticeElegido = null;
-		try { // Buscamos el vertice con menor coste y que no este visitado
+
+		// Buscamos el vertice con menor coste y que no este visitado
+		try {
 			while (index < listaZonas.longitud()) {
 				idZona = listaZonas.obtener(index);
+
 				if (!tablaVisitas.obtener(idZona)) { // Vertice no visitado
 					coste = tablaCostes.obtener(idZona);
+
 					if (verticeElegido == null || coste != null && (costeVerticeElegido==null || coste < costeVerticeElegido)){
 						verticeElegido = idZona; //Entonces se elige el vertice
+
 					}  else if (coste != null && coste.equals(costeVerticeElegido)){
 						 // Si ambos tienen el mismo coste se escoje el vertice con mayor potencia
 						double potenciaZonaActual = grafoEstaciones.valorVertice(idZona).getEnchufeMasPotencia().getPotencia();
@@ -206,7 +210,9 @@ public class GrafoEstaciones {
 		visitadosTodos = true;
 		int index = 0;
 		Integer idZona;
-		try { // Recorremos todos los vertices del grafo y comprobamos si estan visitados en la tabla de visitas
+
+		// Recorremos todos los vertices del grafo y comprobamos si estan visitados en la tabla de visitas
+		try {
 			while (visitadosTodos && index < listaZonas.longitud()) {
 				idZona = listaZonas.obtener(index);
 				if (!tablaVisitas.obtener(idZona)) {

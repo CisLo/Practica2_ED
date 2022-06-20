@@ -28,7 +28,7 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 	 * @param enchufe - enchufe a añadir
 	 */
 	public void addEnchufe (Enchufe enchufe)  {
-		if (enchufe.getLongitud() == longitud && enchufe.getLatitud() == latitud){
+		if (equalsCoordenadas(enchufe.getLatitud(), enchufe.getLongitud())){
 			listaEnchufes.add(enchufe);
 		}
 	}

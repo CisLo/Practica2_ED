@@ -2,6 +2,7 @@ package datos;
 
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.PriorityQueue;
 import java.util.Stack;
 
 import TADGrafoGenerico.GrafoGenerico;
@@ -98,6 +99,7 @@ public class GrafoEstaciones {
 		TablaHashGenerica<Integer, Boolean> tablaVisitas = new TablaHashGenerica<>(mida);
 		TablaHashGenerica<Integer, Double> tablaCostes = new TablaHashGenerica<>(mida);
 		TablaHashGenerica<Integer, Integer> tablaPredecesores =new TablaHashGenerica<>(mida);
+		PriorityQueue<ZonaPrioridad> colaPrioridad = new PriorityQueue<>();
 
 		// Inicializamos las tablas auxiliares
 		for (Integer idZona: listaZonas) {
@@ -117,28 +119,35 @@ public class GrafoEstaciones {
 		// Empezamos por el nodo inicial
 		Integer vertice = origen;
 		tablaCostes.insertar(vertice, 0.0); // Coste de la arista inicial es 0
+		colaPrioridad.add(new ZonaPrioridad(vertice, 0.0)); // Añadimo el nodo a la cola de prioridad
 
-		//TODO usar cola de prioridad auxiliar?
+
 		try{ // Bucle Dijkstra
-			while(!destino.equals(vertice) && !isVisitadosTodos(listaZonas, tablaVisitas)) {
+			while(!destino.equals(vertice) && !colaPrioridad.isEmpty()) {
+				// Elegimos el siguiente vertice
+				vertice = extraerMinimo(colaPrioridad);
+
 				// Lo marcamos como visitados
 				tablaVisitas.insertar(vertice, true);
 
 				// Para cada adyacente al vertice comprobamos si mejora la distancia
 				for (ZonaRecarga zona:grafoEstaciones.adyacentes(vertice)) {
-					Double pesoActual = tablaCostes.obtener(zona.getId());
-					Double costeArista = grafoEstaciones.valorArista(vertice, zona.getId());
-					if (costeArista <= autonomia) { // Descartamos las aristas por las que no puede pasar el coche
-						Double pesoNuevo = tablaCostes.obtener(vertice) + costeArista;
+					if (!tablaVisitas.obtener(zona.getId())){ // Si no esta visto miramos si actualizar coste
+						Double pesoActual = tablaCostes.obtener(zona.getId());
+						Double costeArista = grafoEstaciones.valorArista(vertice, zona.getId());
+						if (costeArista <= autonomia) { // Descartamos las aristas por las que no puede pasar el coche
+							Double pesoNuevo = tablaCostes.obtener(vertice) + costeArista;
+							if (pesoActual == null || pesoActual > pesoNuevo) { // Si mejora el coste, actualizamos el coste y predecesor
+								tablaCostes.insertar(zona.getId(), pesoNuevo);
+								tablaPredecesores.insertar(zona.getId(), vertice);
 
-						if (pesoActual == null || pesoActual > pesoNuevo) { // Si mejora el coste, actualizamos el coste y predecesor
-							tablaCostes.insertar(zona.getId(), pesoNuevo);
-							tablaPredecesores.insertar(zona.getId(), vertice);
+								colaPrioridad.add(new ZonaPrioridad(zona.getId(), pesoNuevo));
+							}
 						}
 					}
+
 				}
-				// Elegimos el siguiente vertice
-				vertice = elegirVerticeMinimoCoste(listaZonas, tablaVisitas, tablaCostes);
+
 			}
 		} catch (ClaveException e) {
 			e.printStackTrace(); // Error
@@ -181,67 +190,38 @@ public class GrafoEstaciones {
 	}
 
 
-	private Integer elegirVerticeMinimoCoste(ListaGenerica<Integer> listaZonas, TablaHashGenerica<Integer, Boolean> tablaVisitas, TablaHashGenerica<Integer, Double> tablaCostes) throws NoExiste {
+	private Integer extraerMinimo(PriorityQueue<ZonaPrioridad> colaPrioridad) throws NoExiste {
 		// Inicializamos bucle
-		int index = 0;
-		Integer idZona;
 		Integer verticeElegido = null;
-		Double coste, costeVerticeElegido = null;
 
-		// Buscamos el vertice con menor coste y que no este visitado
+		//Elegimos el vertice de la cola de prioridad si 2 nodos tiene misma distancia se elige el de mayor potencia
+		ZonaPrioridad nodoMenor = colaPrioridad.poll(); // Extraemos y quitamos el más pequeño
+		ZonaPrioridad nodoSegundo = colaPrioridad.peek(); // Miramos el segundo más pequeño
 		try {
-			while (index < listaZonas.longitud()) {
-				idZona = listaZonas.obtener(index);
 
-				if (!tablaVisitas.obtener(idZona)) { // Vertice no visitado
-					coste = tablaCostes.obtener(idZona);
-
-					if (verticeElegido == null || coste != null && (costeVerticeElegido==null || coste < costeVerticeElegido)){
-						verticeElegido = idZona; //Entonces se elige el vertice
-
-					}  else if (coste != null && coste.equals(costeVerticeElegido)){
-						 // Si ambos tienen el mismo coste se escoje el vertice con mayor potencia
-						double potenciaZonaActual = grafoEstaciones.valorVertice(idZona).getEnchufeMasPotencia().getPotencia();
-						double potenciaZonaElegida = grafoEstaciones.valorVertice(verticeElegido).getEnchufeMasPotencia().getPotencia();
-						if (potenciaZonaActual > potenciaZonaElegida){
-							verticeElegido = idZona; //Entonces se elige el vertice
-						}
-						// Si no entonces nos quedamos con la zona que ya estaba elegida
+			if (nodoSegundo != null) {
+				if (nodoMenor.getCoste() == nodoSegundo.getCoste()) {
+					double potenciaMenor = grafoEstaciones.valorVertice(nodoMenor.getId()).getEnchufeMasPotencia().getPotencia();
+					double potenciaSec = grafoEstaciones.valorVertice(nodoSegundo.getId()).getEnchufeMasPotencia().getPotencia();
+					if (potenciaMenor >= potenciaSec){
+						verticeElegido = nodoMenor.getId();
+					} else{
+						verticeElegido = nodoSegundo.getId();
+						colaPrioridad.poll(); // Entonces quitamos el que tiene mayor potencia
+						colaPrioridad.add(nodoMenor); // Volvemos a añadir el anterior nodo que hemos quitado
 					}
-					costeVerticeElegido = tablaCostes.obtener(verticeElegido);
+				} else{
+					verticeElegido = nodoMenor.getId();
 				}
-				index++;
+			} else{
+				verticeElegido = nodoMenor.getId();
 			}
-			if (tablaCostes.obtener(verticeElegido) == null){
-				throw new NoExiste("No se puede alcanzar el destino");
-			}
-		} catch (ClaveException | PosicionIncorrectaException e) {
+		} catch (ClaveException e) {
 			e.printStackTrace();
 		}
+
 
 		return  verticeElegido;
-	}
-
-	private boolean isVisitadosTodos(ListaGenerica<Integer> listaZonas, TablaHashGenerica<Integer, Boolean> tablaVisitas) {
-		// Inicializamos bucle
-		boolean visitadosTodos;
-		visitadosTodos = true;
-		int index = 0;
-		Integer idZona;
-
-		// Recorremos todos los vertices del grafo y comprobamos si estan visitados en la tabla de visitas
-		try {
-			while (visitadosTodos && index < listaZonas.longitud()) {
-				idZona = listaZonas.obtener(index);
-				if (!tablaVisitas.obtener(idZona)) {
-					visitadosTodos = false;
-				}
-				index++;
-			}
-		} catch (ClaveException | PosicionIncorrectaException e) {
-			e.printStackTrace();
-		}
-		return visitadosTodos;
 	}
 
 	/**

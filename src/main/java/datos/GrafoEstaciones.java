@@ -149,12 +149,12 @@ public class GrafoEstaciones {
 
 		// Generamos la ruta
 		LinkedList<String> ruta = new LinkedList<>();
+
 		try { // Obtenemos el nombre del enchufe con mayor potencia de la zona de recarga
 			ruta.add(grafoEstaciones.valorVertice(destino).getEnchufeMasPotencia().getNom());
 			while (!Objects.equals(destino, origen)){ //Comparamos valores
 				destino = tablaPredecesores.obtener(destino);
 				ruta.add(0, grafoEstaciones.valorVertice(destino).getEnchufeMasPotencia().getNom());
-
 			}
 		} catch (ClaveException e) {
 			e.printStackTrace();
@@ -162,6 +162,8 @@ public class GrafoEstaciones {
 
 		return ruta;
 	}
+
+
 
 	private Integer elegirVerticeMinimoCoste(ListaGenerica<Integer> listaZonas, TablaHashGenerica<Integer, Boolean> tablaVisitas, TablaHashGenerica<Integer, Double> tablaCostes) throws NoExiste {
 		// Inicializamos bucle

@@ -5,17 +5,13 @@ import datos.ZonaRecarga;
 import excepciones.NoExiste;
 
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.LinkedList;
 
 public class AnalisisCostesTemporales {
 	static long inicial;
 	static long[] contador = new long[5];
+	static final int AUTONOMIA = 18; // MODIFICAR ESTE VALOR
 
 	public static void main(String[] args) throws FileNotFoundException {
 
@@ -25,22 +21,13 @@ public class AnalisisCostesTemporales {
 		// Inicializamos el vector a 0
 		Arrays.fill(contador, 0);
 
-		double[] distancias = new double[5];
 		int[] nodos = new int[5];
 		try {
-			distancias[0] = grafoEstaciones.caminoOptimoDistancia("9794082", "7562169", 20);
-			distancias[1] = grafoEstaciones.caminoOptimoDistancia("9794082", "35349720", 20);
-			distancias[2] = grafoEstaciones.caminoOptimoDistancia("35349720", "7562243", 20);
-			distancias[3] = grafoEstaciones.caminoOptimoDistancia("35349720", "29786231", 20);
-			distancias[4] = grafoEstaciones.caminoOptimoDistancia("7562086", "7562247", 20);
-			nodos[0] = grafoEstaciones.caminoOptimo("9794082", "7562169", 20).size();
-			nodos[1] = grafoEstaciones.caminoOptimo("9794082", "35349720", 20).size();
-			nodos[2] = grafoEstaciones.caminoOptimo("35349720", "7562243", 20).size();
-			nodos[3] = grafoEstaciones.caminoOptimo("35349720", "29786231", 20).size();
-			nodos[4] = grafoEstaciones.caminoOptimo("7562086", "7562247", 20).size();
-			System.out.println(Arrays.toString(distancias));
-			System.out.println(Arrays.toString(nodos));
-
+			nodos[0] = grafoEstaciones.caminoOptimo("9794082", "7562169", AUTONOMIA).size();
+			nodos[1] = grafoEstaciones.caminoOptimo("9794082", "35349720", AUTONOMIA).size();
+			nodos[2] = grafoEstaciones.caminoOptimo("35349720", "7562243", AUTONOMIA).size();
+			nodos[3] = grafoEstaciones.caminoOptimo("35349720", "29786231", AUTONOMIA).size();
+			nodos[4] = grafoEstaciones.caminoOptimo("7562086", "7562247", AUTONOMIA).size();
 		} catch (NoExiste e) {
 			e.printStackTrace();
 		}
@@ -51,7 +38,7 @@ public class AnalisisCostesTemporales {
 		}
 
 		for(int i = 0; i < contador.length; i++){
-			System.out.println("Ruta " + i + "-> "+ contador[i]/100.0);
+			System.out.println("Ruta " + i + ": tiene " + nodos[i] + " estaciones-> "+ contador[i]/100.0);
 		}
 
 	}
@@ -68,7 +55,7 @@ public class AnalisisCostesTemporales {
 
 		try {
 			iniciar();
-			grafoEstaciones.caminoOptimo("9794082", "7562169", 20);
+			grafoEstaciones.caminoOptimo("9794082", "7562169", AUTONOMIA);
 			contador[0] += finalizar();
 		} catch (NoExiste e) {
 			e.printStackTrace();
@@ -86,7 +73,7 @@ public class AnalisisCostesTemporales {
 
 		try {
 			iniciar();
-			grafoEstaciones.caminoOptimo("9794082", "35349720", 20);
+			grafoEstaciones.caminoOptimo("9794082", "35349720", AUTONOMIA);
 			contador[1] += finalizar();
 		} catch (NoExiste e) {
 			e.printStackTrace();
@@ -104,7 +91,7 @@ public class AnalisisCostesTemporales {
 
 		try {
 			iniciar();
-			grafoEstaciones.caminoOptimo("35349720", "7562243", 20);
+			grafoEstaciones.caminoOptimo("35349720", "7562243", AUTONOMIA);
 			contador[2] += finalizar();
 		} catch (NoExiste e) {
 			e.printStackTrace();
@@ -122,7 +109,7 @@ public class AnalisisCostesTemporales {
 
 		try {
 			iniciar();
-			grafoEstaciones.caminoOptimo("35349720", "29786231", 20);
+			grafoEstaciones.caminoOptimo("35349720", "29786231", AUTONOMIA);
 			contador[3] += finalizar();
 		} catch (NoExiste e) {
 			e.printStackTrace();
@@ -140,7 +127,7 @@ public class AnalisisCostesTemporales {
 
 		try {
 			iniciar();
-			grafoEstaciones.caminoOptimo("7562086", "7562247", 20);
+			grafoEstaciones.caminoOptimo("7562086", "7562247", AUTONOMIA);
 			contador[4] += finalizar();
 		} catch (NoExiste e) {
 			e.printStackTrace();

@@ -74,31 +74,37 @@ public class PruebaGrafoEstaciones {
 	private static void pruebaCaminoOptimo(GrafoEstaciones grafoEstaciones) {
 		System.out.println("\n----------PRUEBA CAMINO OPTIMO--------------");
 		LinkedList<String> ruta;
+		StringBuilder distancia;
 		try {
 			// Probamos una ruta entre dos zonas de recarga cercanas
+			distancia = new StringBuilder("-Distancia Recorrida: ");
 			System.out.println("\nProbamos una ruta entre dos zonas de recarga cercanas (9165-->9168)");
-			ruta = grafoEstaciones.caminoOptimo("9165", "9168", 100);
-			System.out.println("-->"+ruta);
+			ruta = grafoEstaciones.caminoOptimo("9165", "9168", 100, distancia);
+			System.out.println(distancia + " km --> " +ruta);
 
 			// Probamos una ruta entre dos zonas lejanas y con autonomia baja
+			distancia = new StringBuilder("-Distancia Recorrida: ");
 			System.out.println("\nProbamos una ruta entre dos zonas lejanas y con autonomia baja (9165-->34252288) 20km");
-			ruta = grafoEstaciones.caminoOptimo("9165", "34252288", 20);
-			System.out.println("-->"+ruta);
+			ruta = grafoEstaciones.caminoOptimo("9165", "34252288", 20, distancia);
+			System.out.println(distancia + " km --> " +ruta);
 
 			// Probamos una ruta entre dos zonas lejanas y con autonomia media
+			distancia = new StringBuilder("-Distancia Recorrida: ");
 			System.out.println("\nProbamos una ruta entre dos zonas lejanas y con autonomia media (9165-->34252288) 50km");
-			ruta = grafoEstaciones.caminoOptimo("9165", "34252288", 50);
-			System.out.println("-->"+ruta);
+			ruta = grafoEstaciones.caminoOptimo("9165", "34252288", 50, distancia);
+			System.out.println(distancia + " km --> " +ruta);
 
 			// Probamos una ruta entre dos zonas muy lejanas con autonomia alta 150 km
-			System.out.println("\nProbamos una ruta entre dos zonas muy lejanas y con autonomia alta (13361299-->34252288) 150km");
-			ruta = grafoEstaciones.caminoOptimo("13361299", "7562018", 150);
-			System.out.println("-->"+ruta);
+			distancia = new StringBuilder("-Distancia Recorrida: ");
+			System.out.println("\nProbamos una ruta entre dos zonas muy lejanas y con autonomia alta (13361299-->7562018) 150km");
+			ruta = grafoEstaciones.caminoOptimo("13361299", "7562018", 150, distancia);
+			System.out.println(distancia + " km --> " +ruta);
 
 			// Probamos una ruta entre dos zonas muy lejanas con autonomia baja 30 km
+			distancia = new StringBuilder("-Distancia Recorrida: ");
 			System.out.println("\nProbamos una ruta entre dos zonas muy lejanas y con autonomia media (13361299-->7562018) 30km");
-			ruta = grafoEstaciones.caminoOptimo("13361299", "7562018", 30);
-			System.out.println("-->"+ruta);
+			ruta = grafoEstaciones.caminoOptimo("13361299", "7562018", 30, distancia);
+			System.out.println(distancia + " km --> " +ruta);
 		} catch (NoExiste e) {
 			System.out.println("ERROR"); // Fallo
 		}
@@ -128,9 +134,10 @@ public class PruebaGrafoEstaciones {
 		}
 
 		try {// Probamos una ruta pasando como parametro una zona de destino igual al origen
+			distancia = new StringBuilder("-Distancia Recorrida: ");
 			System.out.println("\nProbamos una ruta pasando como parametro una zona de destino igual al origen (13361299-->13361299) 30km");
-			ruta = grafoEstaciones.caminoOptimo("13361299", "13361299", 30);
-			System.out.println(ruta);
+			ruta = grafoEstaciones.caminoOptimo("13361299", "13361299", 30, distancia);
+			System.out.println(distancia + " km -->" + ruta);
 		} catch (NoExiste e) {
 			System.out.println("ERROR"); // ERROR
 		}

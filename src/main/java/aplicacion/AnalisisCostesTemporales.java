@@ -23,11 +23,18 @@ public class AnalisisCostesTemporales {
 
 		int[] nodos = new int[5];
 		try {
-			nodos[0] = grafoEstaciones.caminoOptimo("9794082", "7562169", AUTONOMIA).size();
-			nodos[1] = grafoEstaciones.caminoOptimo("9794082", "35349720", AUTONOMIA).size();
-			nodos[2] = grafoEstaciones.caminoOptimo("35349720", "7562243", AUTONOMIA).size();
-			nodos[3] = grafoEstaciones.caminoOptimo("35349720", "29786231", AUTONOMIA).size();
-			nodos[4] = grafoEstaciones.caminoOptimo("7562086", "7562247", AUTONOMIA).size();
+			StringBuilder distancia = new StringBuilder("[");
+			nodos[0] = grafoEstaciones.caminoOptimo("9794082", "7562169", AUTONOMIA, distancia).size();
+			distancia.append(" , ");
+			nodos[1] = grafoEstaciones.caminoOptimo("9794082", "35349720", AUTONOMIA, distancia).size();
+			distancia.append(" , ");
+			nodos[2] = grafoEstaciones.caminoOptimo("35349720", "7562243", AUTONOMIA, distancia).size();
+			distancia.append(" , ");
+			nodos[3] = grafoEstaciones.caminoOptimo("35349720", "29786231", AUTONOMIA, distancia).size();
+			distancia.append(" , ");
+			nodos[4] = grafoEstaciones.caminoOptimo("7562086", "7562247", AUTONOMIA, distancia).size();
+			distancia.append("]");
+			System.out.println("Las distancias de las rutas son: \n"+distancia);
 		} catch (NoExiste e) {
 			e.printStackTrace();
 		}
@@ -55,7 +62,7 @@ public class AnalisisCostesTemporales {
 
 		try {
 			iniciar();
-			grafoEstaciones.caminoOptimo("9794082", "7562169", AUTONOMIA);
+			grafoEstaciones.caminoOptimo("9794082", "7562169", AUTONOMIA, null);
 			contador[0] += finalizar();
 		} catch (NoExiste e) {
 			e.printStackTrace();
@@ -73,7 +80,7 @@ public class AnalisisCostesTemporales {
 
 		try {
 			iniciar();
-			grafoEstaciones.caminoOptimo("9794082", "35349720", AUTONOMIA);
+			grafoEstaciones.caminoOptimo("9794082", "35349720", AUTONOMIA, null);
 			contador[1] += finalizar();
 		} catch (NoExiste e) {
 			e.printStackTrace();
@@ -91,7 +98,7 @@ public class AnalisisCostesTemporales {
 
 		try {
 			iniciar();
-			grafoEstaciones.caminoOptimo("35349720", "7562243", AUTONOMIA);
+			grafoEstaciones.caminoOptimo("35349720", "7562243", AUTONOMIA, null);
 			contador[2] += finalizar();
 		} catch (NoExiste e) {
 			e.printStackTrace();
@@ -109,7 +116,7 @@ public class AnalisisCostesTemporales {
 
 		try {
 			iniciar();
-			grafoEstaciones.caminoOptimo("35349720", "29786231", AUTONOMIA);
+			grafoEstaciones.caminoOptimo("35349720", "29786231", AUTONOMIA, null);
 			contador[3] += finalizar();
 		} catch (NoExiste e) {
 			e.printStackTrace();
@@ -127,7 +134,7 @@ public class AnalisisCostesTemporales {
 
 		try {
 			iniciar();
-			grafoEstaciones.caminoOptimo("7562086", "7562247", AUTONOMIA);
+			grafoEstaciones.caminoOptimo("7562086", "7562247", AUTONOMIA, null);
 			contador[4] += finalizar();
 		} catch (NoExiste e) {
 			e.printStackTrace();

@@ -78,10 +78,11 @@ public class GrafoEstaciones {
 	 * @param id_origen estacion de recarga inicial
 	 * @param id_destino estacion de recarga final
 	 * @param autonomia distancia máxima del coche sin recargar
+	 * @param distancia puntero que guardara el resultado de la distancia total
 	 * @return una lista que contiene todos los nombres de los puntos de carga por los que hay que pasar para llegar al destino
 	 * @exception NoExiste no se ha podido crear la lista de camino optimo
 	 */
-	public LinkedList<String> caminoOptimo(String id_origen, String id_destino, int autonomia) throws NoExiste{
+	public LinkedList<String> caminoOptimo(String id_origen, String id_destino, int autonomia, StringBuilder distancia) throws NoExiste{
 		// Comprobamos parametros validos
 		if(id_origen == null || id_destino == null || autonomia <= 0) {
 			throw new NoExiste("Parametros no validos introducidos en funcion: camino optimo");
@@ -151,6 +152,9 @@ public class GrafoEstaciones {
 		LinkedList<String> ruta = new LinkedList<>();
 
 		try { // Obtenemos el nombre del enchufe con mayor potencia de la zona de recarga
+			if (distancia != null) {
+				distancia.append(String.format("%.3f", tablaCostes.obtener(destino)));
+			}
 			ruta.add(grafoEstaciones.valorVertice(destino).getEnchufeMasPotencia().getNom());
 			while (!Objects.equals(destino, origen)){ //Comparamos valores
 				destino = tablaPredecesores.obtener(destino);
@@ -163,6 +167,18 @@ public class GrafoEstaciones {
 		return ruta;
 	}
 
+
+	/**
+	 * Camino Optimo
+	 * @param id_origen estacion de recarga inicial
+	 * @param id_destino estacion de recarga final
+	 * @param autonomia distancia máxima del coche sin recargar
+	 * @return una lista que contiene todos los nombres de los puntos de carga por los que hay que pasar para llegar al destino
+	 * @exception NoExiste no se ha podido crear la lista de camino optimo
+	 */
+	public LinkedList<String>  caminoOptimo(String id_origen, String id_destino, int autonomia) throws NoExiste {
+		return caminoOptimo(id_origen, id_destino, autonomia, null);
+	}
 
 
 	private Integer elegirVerticeMinimoCoste(ListaGenerica<Integer> listaZonas, TablaHashGenerica<Integer, Boolean> tablaVisitas, TablaHashGenerica<Integer, Double> tablaCostes) throws NoExiste {

@@ -1,21 +1,23 @@
 package datos;
 
-import com.google.gson.Gson;
-import excepciones.NoExiste;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+import com.google.gson.Gson;
+
+/**
+ * Clase que es una zona de recarga que contiene todos los enchufes que tienen las mismas coordenadas
+ */
 public class ZonaRecarga implements Comparable<ZonaRecarga> {
 	private final int id;
-	private LinkedList<Enchufe> listaEnchufes;
+	private final LinkedList<Enchufe> listaEnchufes;
 	private final double latitud, longitud;
 
 	public ZonaRecarga (Enchufe enchufe){
 		this.id = enchufe.getId();
-		listaEnchufes = new LinkedList<Enchufe>();
+		listaEnchufes = new LinkedList<>();
 		listaEnchufes.add(enchufe);
 		this.latitud = enchufe.getLatitud();
 		this.longitud = enchufe.getLongitud();
@@ -24,14 +26,11 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 	/**
 	 * Función que añade un enchufe a la zona de recarga, tiene que tener las mismas coordenadas
 	 * @param enchufe - enchufe a añadir
-	 * @return true - si se ha añdido; false - si no tiene las mismas coordenadas
 	 */
-	public boolean addEnchufe (Enchufe enchufe)  {
-		if (enchufe.getLongitud() == longitud && enchufe.getLatitud() == latitud){
+	public void addEnchufe (Enchufe enchufe)  {
+		if (equalsCoordenadas(enchufe.getLatitud(), enchufe.getLongitud())){
 			listaEnchufes.add(enchufe);
-			return true;
 		}
-		return false; // No se puede añadir porque no pertenece a la misma zona
 	}
 
 	/**
@@ -66,58 +65,6 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 	}
 
 
-
-	/**
-	 * Función que lee un archivo JSON con los enchufes de recarga
-	 * @param path - ruta del archivo JSON
-	 * @return una lista con las zonas de recarga (conjunto de enchufes con las mismas coordenadas
-	 * @throws FileNotFoundException - problemas al no poder encontrar el fichero
-	 */
-	public static LinkedList<ZonaRecarga> leerJsonOriginal(String path) throws FileNotFoundException {
-		LinkedList<ZonaRecarga> listaZonas = new LinkedList<>();
-		ZonaRecarga zona = null;
-		Enchufe enchufe;
-		Scanner reader = new Scanner(new File(path));
-
-		// cargamos el texto
-		reader.useDelimiter("]");
-		String s = reader.next();
-		s += "]";
-
-
-		// configuramos para leer los enchufes
-		String objeto;
-		s = s.replace("[", "");
-		s = s.replace("]", "");
-		Scanner leer = new Scanner(s);
-		leer.useDelimiter("},");
-
-		while (leer.hasNext()){
-			// Ajustamos el string
-			objeto = leer.next();
-			objeto = objeto.replace("}", "");
-			objeto += "}";
-
-			// Pasamos de JSONObject a un Objeto Java
-			enchufe = new Gson().fromJson(objeto, Enchufe.class);
-
-
-			// Lo convertimos a una Zona de Recarga
-			if (zona == null){
-				zona = new ZonaRecarga(enchufe);
-			}else{
-				if(!zona.addEnchufe(enchufe)){ // Intentamos añadirlo, si no se puede es porque tiene coordenadas distintas
-					listaZonas.add(zona); // guardamos la anterior zona de recarga
-					zona = new ZonaRecarga(enchufe); // creamos una nueva zona para el enchufe
-				}
-			}
-		}
-		listaZonas.add(zona); // Guardamos la última zona de recarga
-
-		reader.close();
-		return listaZonas;
-	}
-
 	/**
 	 * Función que lee un archivo JSON con los enchufes de recarga
 	 * @param path - ruta del archivo JSON
@@ -126,7 +73,7 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 	 */
 	public static LinkedList<ZonaRecarga> leerJson(String path) throws FileNotFoundException {
 		LinkedList<ZonaRecarga> listaZonas = new LinkedList<>();
-		ZonaRecarga zona = null;
+		ZonaRecarga zona;
 		Enchufe enchufe;
 		Scanner reader = new Scanner(new File(path));
 		int index;
@@ -170,41 +117,21 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 			}
 		}
 
+		leer.close();
 		reader.close();
 		return listaZonas;
 	}
 
-	//TODO quitar
-	public static String zonasRepetidas(LinkedList<ZonaRecarga> lista){
-		String frase = "";
-		int i = 0;
-		for (ZonaRecarga vertice:lista) {
-			frase += i+ "/ " + vertice.id + " \n";
-			i += 1;
-		}
-		return frase;
-	}
-
-	//TODO quitar
-	public static boolean repes(LinkedList<ZonaRecarga> lista){
-		boolean repe = false;
-		for (int i = 0; i< lista.size(); i++){
-			for(int j = 0; j< lista.size();j++){
-				if(i != j) {
-					if (lista.get(i).id == lista.get(j).id) {
-						repe = true;
-					}
-					if (lista.get(i).equalsCoordenadas(lista.get(j).latitud, lista.get(j).longitud)) {
-						repe = true;
-					}
-				}
-			}
-		}
-		return repe;
-	}
-
 	public int getId() {
 		return id;
+	}
+
+	public double getLatitud() {
+		return latitud;
+	}
+
+	public double getLongitud() {
+		return longitud;
 	}
 
 	/**
@@ -217,8 +144,22 @@ public class ZonaRecarga implements Comparable<ZonaRecarga> {
 		return latitud == this.latitud && longitud == this.longitud;
 	}
 
+	public Enchufe getEnchufeMasPotencia(){
+		Enchufe enchufeMasPotencia = listaEnchufes.get(0);
+		for (Enchufe enchufe:listaEnchufes) {
+			try {
+				if (enchufe.getPotencia() > enchufeMasPotencia.getPotencia()){
+					enchufeMasPotencia = enchufe;
+				}
+			} catch (NumberFormatException e){
+				// No hacer nada
+			}
+		}
+		return enchufeMasPotencia;
+	}
+
 	@Override
-	public int compareTo(ZonaRecarga zona) { //TODO
+	public int compareTo(ZonaRecarga zona) {
 		return this.id - zona.id; // negativo si este objeto es menor, 0 si son iguales, positivo si es mayor a la zona pasasado por parametro
 	}
 

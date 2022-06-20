@@ -3,17 +3,19 @@ package TADGrafoGenerico;
 
 import TAD_TablaHash_ListaGenerica.Nodo;
 
-public class Vertice<V extends Comparable<V>, A> implements Comparable<Vertice<V, A>> {
+public class Vertice<K extends Comparable<K>, V, A> implements Comparable<Vertice<K, V, A>> {
 
+	private K clave;
 	private V dato;
 
-	private Arista<V, A> punteroAristaHorizontal;
-	private Arista<V, A> punteroAristaVertical;
+	private Arista<K, V, A> punteroAristaHorizontal;
+	private Arista<K, V, A> punteroAristaVertical;
 
 
 	// ************ ↓↓↓ MÉTODOS ↓↓↓ ***********
 
-	public Vertice(V dato){
+	public Vertice(K clave, V dato){
+		this.clave = clave;
 		this.dato = dato;
 		punteroAristaHorizontal = null;
 		punteroAristaVertical = null;
@@ -31,14 +33,14 @@ public class Vertice<V extends Comparable<V>, A> implements Comparable<Vertice<V
 	 * Metodo next
 	 * @return el puntero al siguiente nodo Arista Horizontal
 	 */
-	public Arista<V, A> getPunteroAristaHorizontal() {
+	public Arista<K, V, A> getPunteroAristaHorizontal() {
 		return punteroAristaHorizontal;
 	}
 	/**
 	 * Metodo next
 	 * @return el puntero al siguiente nodo Arista Vertical
 	 */
-	public Arista<V, A> getPunteroAristaVertical() {
+	public Arista<K, V, A> getPunteroAristaVertical() {
 		return punteroAristaVertical;
 	}
 
@@ -46,7 +48,7 @@ public class Vertice<V extends Comparable<V>, A> implements Comparable<Vertice<V
 	 * Setter
 	 * @param aristaHorizontal - nuevo puntero al primer nodo Arista Horizontal
 	 */
-	public void setNodoHorizontal(Arista<V, A> aristaHorizontal){
+	public void setNodoHorizontal(Arista<K, V, A> aristaHorizontal){
 		this.punteroAristaHorizontal = aristaHorizontal;
 	}
 
@@ -54,7 +56,7 @@ public class Vertice<V extends Comparable<V>, A> implements Comparable<Vertice<V
 	 * Setter
 	 * @param aristaVertical - nuevo puntero al primer nodo Arista Vertical
 	 */
-	public void setNodoVertical(Arista<V, A> aristaVertical){
+	public void setNodoVertical(Arista<K, V, A> aristaVertical){
 		this.punteroAristaVertical = aristaVertical;
 	}
 
@@ -67,8 +69,8 @@ public class Vertice<V extends Comparable<V>, A> implements Comparable<Vertice<V
 	}
 
 	@Override
-	public int compareTo(Vertice<V, A> vertix) {
-		return dato.compareTo(vertix.dato);
+	public int compareTo(Vertice<K, V, A> vertix) {
+		return clave.compareTo(vertix.clave);
 	}
 
 	//colores para la impresión por consola
